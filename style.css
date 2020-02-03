@@ -1,0 +1,21 @@
+body
+{
+	/* Background pattern from Toptal Subtle Patterns */
+	background-image:url("tlo/tactile_noise.png");
+}
+.container{
+	background-color:#ccc5c5;
+}
+.fa-22-font{
+	font-size:22px;
+}
+.register{
+	background-image:url("img/grafika-tlo.jpg");
+	background-size:cover;
+	min-height:35rem;
+}
+.menu{
+	background-image:url("img/grafika-tlo.jpg");
+	background-size:cover;
+	min-height:35rem;
+}
