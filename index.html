@@ -18,16 +18,30 @@
 	<link rel="stylesheet" type="text/css" href="style.css" />
 </head>
 <body>
-	<div class="container mt-3">
+	<div class="container mt-3 rounded h-100">
 	
-		<header id="appHeader" class="row justify-content-center align-items-center py-2">
-			<h3>Bezpożyczek - aplikacja internetowa wspomagająca zażądzanie funduszami</h3>
+		<header id="appHeader" class="row bg-secondary align-items-center text-center justify-content-center px-3 py-2">
+			<h3><b>Bezpożyczek - aplikacja internetowa wspomagająca zażądzanie funduszami</b></h3>
 		</header>
-		<div class="row register py-2">
-			<div class="col-sm-8 align-self-center">
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+		<div class="row custom-bg py-2" id="register">
+			<div class="col-lg-8 col-md-6 col-sm-12 align-self-center" id="frontDescription">
+				
+				<h4 class="my-5"><b>Juz dziś zacznij kontrolować swoje wydatki!</b></h4>
+				
+				<p>Pierwszym nawykiem, który jest niezbędny do sprawnego zarządzania swoim budżetem jest umiejętne archiwizowanie swoich wydatków. Niestety może być to żmudne i uciążliwe, zwłaszcza używając tradycyjnej metody z kartka papieru i kalkulatorem.
+				Używając tej aplikacji będziesz mógł zrobić to znacznie szybciej i bez zbędnego pogrubiania swoich teczek z dokumentami. 
+				Historia wszystkich twoich wydatków będzie w jednym miejscu, bezpieczna i usystematyzowana. Da Ci to komfort planowania i pozwoli od razu zauważyć trendy w swoich wydatkach.</p>
+
+				<p>Za pomocą tej aplikacji:</p>
+				<ul class="list-group">
+					<li class="list-group-item bg-none"><span class="fa fa-money text-success"></span> ułatwisz sobie zaplanowanie swojego budżetu</li>
+					<li class="list-group-item bg-none"><span class="fa fa-money text-success"></span> w przystepnej formie graficznej zobaczysz strukturę swoich wydatków</li>
+					<li class="list-group-item bg-none"><span class="fa fa-money text-success"></span> uwolnisz się od kartki i kalkulatora</li>
+					<li class="list-group-item bg-none"><span class="fa fa-money text-success"></span> skrócisz czas niezbędny do archiwizowania swoich wydatków</li>
+				</ul>
+				
 			</div>
-			<div class="col-sm-4 align-self-center">
+			<div class="col-lg-4 col-md-6 col-sm-12 align-self-center" id="userDataGroup">
 				<div class="input-group mb-2">
 					<div class="input-group-prepend">
 						<span class="fa fa-user input-group-text fa-22-font"></span>
@@ -39,7 +53,7 @@
 					<div class="input-group-prepend">
 						<span class="input-group-text fa fa-key fa-22-font"></span>
 					</div>
-					<input class="form-control" id="password" type="text" placeholder="Hasło">
+					<input class="form-control" id="password" type="password" placeholder="Hasło">
 				</div>
 				
 				<div class="input-group mb-2">
@@ -52,14 +66,72 @@
 				<button type="button" id="signIn" class="btn btn-primary btn-block mb-2">Zaloguj się</button>
 				<p class="mb-2">Nie masz jeszcze konta - zarejestruj się !</p>
 				<button type="button" id="signUp" class="btn btn-primary btn-block mb-2">Zarejestruj się</button> 
+				
+			</div>
+			<div class="col-sm-12">
+				<a href="https://pl.freepik.com/darmowe-zdjecie-wektory/pieniadze" class="text-muted pull-right push-down text-sm">Grafika w tle autorstwa natanaelginting - pl.freepik.com</a>
 			</div>
 		</div>
-		<div class="menu row py-2 d-none">
-			<div class="col-sm-4">
-				<p>Zawartość diva menu</p>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+		<div class="row py-2 px-2 d-none custom-bg" id="content">
+			<div class="col-sm-12">
+				
+					<nav class="navbar navbar-expand-lg navbar-dark bg-dark w-100" role="navigation">
+						<!--<div class="navbar-header">-->
+							<!--<a class="navbar-brand w-20" href="#">"Marka - Logo strony"</a>-->
+							<button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#siteNavbar">
+								<span class="navbar-toggler-icon"></span>
+							</button>
+						<!--</div>-->
+						<div class="collapse navbar-collapse" id="siteNavbar">
+						  <ul class="navbar-nav mr-auto w-100" id="navList">
+							<li class="nav-item w-20" id="incomes"><a class="nav-link" href="#">Nowy przychód <span class="fa fa-plus-circle"></span></a></li>
+							<li class="nav-item w-20" id="expences"><a class="nav-link" href="#">Nowy wydatek <span class="fa fa-minus-circle"></span></a></li>
+							<li class="nav-item w-20" id="summary"><a class="nav-link" href="#">Bilans <span class="fa fa-line-chart"></span></a></li>
+							<li class="nav-item w-20" id="setup"><a class="nav-link" href="#">Ustawienia <span class="fa fa-wrench"></span></a></li>
+							<li class="nav-item w-20" id="log-out"><a class="nav-link" href="#">Wyloguj <span class="fa fa-sign-out"></span></a></li>
+						  </ul>
+						</div>
+					</nav>
+				
+			</div>
+			<div class="col-sm-12">
+				
+				<div class="row d-none mt-2" id="initialContent">
+					<div class="col-sm-4">
+						<p>Zawartość diva content</p>
+						
+						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+						<ul>
+							<li>111111111</li>
+							<li>222222222</li>
+							<li>333333333</li>
+							<li>444444444</li>
+						</ul>
+					</div>
+					<div class="col-sm-8">
+						<figure class="figure">
+							<img src="img/sharon-mccutcheon-8lnbXtxFGZw-unsplash.jpg" class="figure-img img-fluid rounded" alt="PLaceholder">
+							<figcaption class="figure-caption text-right">Photo by Sharon McCutcheon on Unsplash</figcaption>
+						</figure>
+						<!--Photo by Sharon McCutcheon on Unsplash-->
+					</div>
+				</div>				
+				
+				<div class="row d-none" id="incomesContainer">
+					<p>Zawartość diva #incomesContainer</p>
+				</div>
+				<div class="row d-none" id="expenceContainer">
+					<p>Zawartość diva #expenceContainer</p>
+				</div>
+				<div class="row d-none" id="summaryContainer">
+					<p>Zawartość diva #summaryContainer</p>
+				</div>
+				<div class="row d-none" id="setupContainer">
+					<p>Zawartość diva #setupContainer</p>
+				</div>
 			</div>
 		</div>
+		
 	</div>
 	
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

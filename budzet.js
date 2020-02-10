@@ -5,6 +5,10 @@ var checkedID = 0;
 
 $(document).ready(function(){	
 	loadUsersFromLocalStorage();
+	resizeScreen();
+});
+$( window ).resize(function() {
+  resizeScreen();
 });
 // load users data and auxillary functions
 function loadUsersFromLocalStorage()
@@ -66,6 +70,7 @@ function getDataFromStringWithDashes(valueOfName)
 	}
 }
 // load users data and auxillary functions
+// sign user up and in
 $('#signUp').on('click', function(){
 	signUpAUser();
 	location.reload();
@@ -128,9 +133,9 @@ function checkifLoginAlreadyExist(i, loginValue)
 }
 function singUserIn()
 {
-	var loginValue = document.getElementById("name").value;
-	var passwordValue = document.getElementById("password").value;
-	var emailValue = document.getElementById("email").value;
+	var loginValue = $("#name").val();
+	var passwordValue = $("#password").val();
+	var emailValue = $("#email").val();
 	if(loginValue == "") {
 		alert("Wpisz swój login"); 
 		return;
@@ -158,13 +163,127 @@ function checkLogin(loginValue)
 	}
 	return false;
 }
+// sign user up and in
+// visibility functions
+$('#incomes').on('click',function(){	
+	showIncomesManager();
+});
+$('#expences').on('click',function(){	
+	showExpenceManager();
+});
+$('#summary').on('click',function(){
+	showSummaryManager();
+});
+$('#setup').on('click',function(){
+	showSetupManager();
+});
+$('#log-out').on('click', function(){
+	loggedUserID = 0;
+	//var endOfArrayExpences = expencesObj.length;
+	//expencesObj.splice(0,endOfArrayExpences);
+	//var endOfArrayIncomes = incomesObj.length;
+	//incomesObj.splice(0,endOfArrayIncomes);
+	location.reload();
+	$("#name").val("");
+	$("#password").val("");
+	$("#email").val("");
+});
 function showMenu(){
-	$('.register').css('display','none');
-	//$('#logOutDiv').css('display','block');
-	$('.menu').removeClass('d-none');
-	//$('.setupContainer').css('display', 'none');
-	//$('.incomesContainer').css('display','none');
-	//$('.expenceContainer').css('display','none');
-	//$('.summaryContainer').css('display','none');
+	$('#register').addClass('d-none');
+	$('#content').removeClass('d-none');
+	$('#content').addClass('d-flex');
+	$('#initialContent').removeClass('d-none');
+	$('#initialContent').addClass('d-flex');
+}
+function showIncomesManager(){
+	
+	$('#initialContent').removeClass('d-flex');
+	$('#initialContent').addClass('d-none');
+	
+	$('#incomesContainer').removeClass('d-none');
+	$('#incomesContainer').addClass('d-flex');
+	$('#incomes').addClass('active');
+	
+	$('#expenceContainer').removeClass('d-flex');
+	$('#expenceContainer').addClass('d-none');
+	$('#expences').removeClass('active');
+	
+	$('#setupContainer').removeClass('d-flex');
+	$('#setupContainer').addClass('d-none');
+	$('#setup').removeClass('active');
+	
+	$('#summaryContainer').removeClass('d-flex');
+	$('#summaryContainer').addClass('d-none');
+	$('#summary').removeClass('active');
 	
 }
+function showExpenceManager(){
+	
+	$('#initialContent').removeClass('d-flex');
+	$('#initialContent').addClass('d-none');
+	
+	$('#incomesContainer').removeClass('d-flex');
+	$('#incomesContainer').addClass('d-none');
+	$('#incomes').removeClass('active');
+	
+	$('#expenceContainer').removeClass('d-none');
+	$('#expenceContainer').addClass('d-flex');
+	$('#expences').addClass('active');
+	
+	$('#setupContainer').removeClass('d-flex');
+	$('#setupContainer').addClass('d-none');
+	$('#setup').removeClass('active');
+	
+	$('#summaryContainer').removeClass('d-flex');
+	$('#summaryContainer').addClass('d-none');
+	$('#summary').removeClass('active');
+}
+function showSetupManager(){
+	$('#initialContent').removeClass('d-flex');
+	$('#initialContent').addClass('d-none');
+	
+	$('#incomesContainer').removeClass('d-flex');
+	$('#incomesContainer').addClass('d-none');
+	$('#incomes').removeClass('active');
+	
+	$('#expenceContainer').removeClass('d-flex');
+	$('#expenceContainer').addClass('d-none');
+	$('#expences').removeClass('active');
+	
+	$('#setupContainer').removeClass('d-none');
+	$('#setupContainer').addClass('d-flex');
+	$('#setup').addClass('active');
+	
+	$('#summaryContainer').removeClass('d-flex');
+	$('#summaryContainer').addClass('d-none');
+	$('#summary').removeClass('active');
+}
+function showSummaryManager()
+{
+	$('#initialContent').removeClass('d-flex');
+	$('#initialContent').addClass('d-none');
+	
+	$('#incomesContainer').removeClass('d-flex');
+	$('#incomesContainer').addClass('d-none');
+	$('#incomes').removeClass('active');
+	
+	$('#expenceContainer').removeClass('d-flex');
+	$('#expenceContainer').addClass('d-none');
+	$('#expences').removeClass('active');
+	
+	$('#setupContainer').removeClass('d-flex');
+	$('#setupContainer').addClass('d-none');
+	$('#setup').removeClass('active');
+	
+	$('#summaryContainer').removeClass('d-none');
+	$('#summaryContainer').addClass('d-flex');
+	$('#summary').addClass('active');
+}
+// visibility functions
+/*function resizeScreen(){
+	var screenHeight = screen.height;
+	var registerHeight = parseInt(screenHeight) - 150;
+	
+	 $('#register').css('min-height', registerHeight);
+	 $('#content').css('min-height', registerHeight);
+}*/
