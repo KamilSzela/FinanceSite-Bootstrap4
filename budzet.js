@@ -1,7 +1,9 @@
 var lastUserID = 0;
 var loggedUserID = 0;
 var usersObj = [];
+var incomesObj = [];
 var checkedID = 0;
+var lastIncomeID = 0;
 
 $(document).ready(function(){	
 	loadUsersFromLocalStorage();
@@ -151,7 +153,7 @@ function singUserIn()
 		loggedUserID = checkedID;
 		alert("Zostałeś zalogowany!");
 		//loadExpencesOfLoggedUser();
-		//loadIncomesOfLoggedUser();
+		loadIncomesOfLoggedUser();
 		showMenu();
 	}
 	else alert("Podany login nie istnieje!");
@@ -192,8 +194,8 @@ $('#log-out').on('click', function(){
 	loggedUserID = 0;
 	//var endOfArrayExpences = expencesObj.length;
 	//expencesObj.splice(0,endOfArrayExpences);
-	//var endOfArrayIncomes = incomesObj.length;
-	//incomesObj.splice(0,endOfArrayIncomes);
+	var endOfArrayIncomes = incomesObj.length;
+	incomesObj.splice(0,endOfArrayIncomes);
 	location.reload();
 	$("#name").val("");
 	$("#password").val("");
@@ -325,4 +327,124 @@ function adjustNavBar(){
 	else{
 		$('#navList li').addClass('w-20');
 	}
+}
+//add incomes functions
+$('#addIncomeButton').on('click',function(){
+	addNewIncome();
+});
+function addNewIncome(){
+	
+	lastIncomeID++;
+	var IncomeInArray = {
+		id: 0,
+		userId: 0,
+		amount: "",
+		date: "",
+		cathegory: "",
+		comment: ""
+	};
+	var amount;
+	amount = $('#incomeAmount').val();
+	if(amount == '') {alert("Proszę podaj rozmiar przychodu"); return;}
+	var date;
+	date = $('#dateIncome').val();
+	if(date == '') {alert("Proszę podaj datę przychodu"); return;}
+	var category;
+	category = $("input[type=radio][name=incomeCategory]:checked").val();
+	var comment;
+	comment = $('#commentIncome').val();
+	var string = lastIncomeID.toString()+"/"+ loggedUserID.toString()+"/"+ amount +"/"+date+"/"+category+"/"+comment+"/";
+	
+	
+	IncomeInArray.id = lastIncomeID;
+	IncomeInArray.userId = loggedUserID;
+	IncomeInArray.amount = amount;
+	IncomeInArray.date = date;
+	IncomeInArray.cathegory = category;
+	IncomeInArray.comment = comment;
+	incomesObj.push(IncomeInArray);
+	
+	var nameOfIncome = "Income" + lastIncomeID.toString();
+	var valueOfIncome = string;
+	localStorage.setItem(nameOfIncome, valueOfIncome);
+	
+	alert("Dodałeś nowy przychód!");
+	
+	$('#incomeAmount').val("");
+	$('#dateIncome').val("");
+	$('#commentIncome').val("");
+	
+} 
+function loadIncomesOfLoggedUser(){
+	for(var i=0; i<localStorage.length; i++){
+		loadIncomestoArray(i);
+	}
+
+	incomesObj.sort(function(a, b){return a.id - b.id;});
+	
+}
+function loadIncomestoArray(i){
+	var nameOfValue = localStorage.key(i); 
+	if(nameOfValue.charAt(0)=='I'){	
+		var valueOfName = localStorage.getItem(nameOfValue);
+		getIncomeDataFromStringWithDashes(valueOfName);
+	}
+}
+function getIncomeDataFromStringWithDashes(valueOfName){
+	var dashCounter = 0;
+	var string = "";
+	var IncomeInArray = {
+		id: 0,
+		userId: 0,
+		amount: "",
+		date: "",
+		cathegory: "",
+		comment: ""
+	};
+	for(var i=0; i<valueOfName.length; i++)
+	{
+		if(valueOfName.charAt(i) != "/"){
+			string = string + valueOfName.substr(i,1);
+		}
+		if(valueOfName.charAt(i) == '/')
+		{
+	
+			switch(dashCounter)
+			{
+				case 0: IncomeInArray.id = parseInt(string); 
+					if(lastIncomeID<IncomeInArray.id)
+						lastIncomeID = IncomeInArray.id; 
+					
+					string = ""; break;
+				case 1: IncomeInArray.userId = parseInt(string); string = ""; 
+					if(IncomeInArray.userId != loggedUserID) return;
+				break;
+				case 2: 
+					string = changeCommasToDots(string);
+					var incomeValue = parseFloat(string);
+					IncomeInArray.amount = Math.round(incomeValue*100)/100; string = ""; break;
+				case 3: IncomeInArray.date = string; string = ""; break;
+				case 4: IncomeInArray.cathegory = string; string = ""; break;
+				case 5: IncomeInArray.comment = string; string = ""; break;
+			}
+			dashCounter++;
+		}
+		if (dashCounter == 6)
+		{
+			incomesObj.push(IncomeInArray);
+		}
+	}
+}
+function changeCommasToDots(string){
+	var newString = "";
+	for(var i=0; i<string.length; i++)
+	{
+		if(string.charAt(i)==',')
+		{
+			newString += '.';
+			i++;
+		}
+		newString = newString + string.substr(i,1);
+	}
+	return newString;
 }
