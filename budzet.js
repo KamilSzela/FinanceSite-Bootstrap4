@@ -5,10 +5,13 @@ var checkedID = 0;
 
 $(document).ready(function(){	
 	loadUsersFromLocalStorage();
-	resizeScreen();
+	//resizeScreen();
+	adjustNavBar();
+	
 });
 $( window ).resize(function() {
-  resizeScreen();
+  //resizeScreen();
+    adjustNavBar();
 });
 // load users data and auxillary functions
 function loadUsersFromLocalStorage()
@@ -165,17 +168,25 @@ function checkLogin(loginValue)
 }
 // sign user up and in
 // visibility functions
+$('#home').on('click',function(){	
+	var id = $('#home').attr('id')
+	showContent(id);
+});
 $('#incomes').on('click',function(){	
-	showIncomesManager();
+	var id = $('#incomes').attr('id')
+	showContent(id);
 });
 $('#expences').on('click',function(){	
-	showExpenceManager();
+	var id = $('#expences').attr('id')
+	showContent(id);
 });
 $('#summary').on('click',function(){
-	showSummaryManager();
+	var id = $('#summary').attr('id')
+	showContent(id);
 });
 $('#setup').on('click',function(){
-	showSetupManager();
+	var id = $('#setup').attr('id')
+	showContent(id);
 });
 $('#log-out').on('click', function(){
 	loggedUserID = 0;
@@ -195,89 +206,107 @@ function showMenu(){
 	$('#initialContent').removeClass('d-none');
 	$('#initialContent').addClass('d-flex');
 }
-function showIncomesManager(){
+function showContent(id){
+	if(id=="home"){
+		$('#initialContent').removeClass('d-none');
+		$('#initialContent').addClass('d-flex');
+		
+		$('#incomesContainer').removeClass('d-flex');
+		$('#incomesContainer').addClass('d-none');
+		$('#incomes').removeClass('active');
+		
+		$('#expenceContainer').removeClass('d-flex');
+		$('#expenceContainer').addClass('d-none');
+		$('#expences').removeClass('active');
+		
+		$('#setupContainer').removeClass('d-flex');
+		$('#setupContainer').addClass('d-none');
+		$('#setup').removeClass('active');
+		
+		$('#summaryContainer').removeClass('d-flex');
+		$('#summaryContainer').addClass('d-none');
+		$('#summary').removeClass('active');
+	}
+	else if(id=="incomes"){
+		$('#initialContent').removeClass('d-flex');
+		$('#initialContent').addClass('d-none');
 	
-	$('#initialContent').removeClass('d-flex');
-	$('#initialContent').addClass('d-none');
+		$('#incomesContainer').removeClass('d-none');
+		$('#incomesContainer').addClass('d-flex');
+		$('#incomes').addClass('active');
 	
-	$('#incomesContainer').removeClass('d-none');
-	$('#incomesContainer').addClass('d-flex');
-	$('#incomes').addClass('active');
+		$('#expenceContainer').removeClass('d-flex');
+		$('#expenceContainer').addClass('d-none');
+		$('#expences').removeClass('active');
+		
+		$('#setupContainer').removeClass('d-flex');
+		$('#setupContainer').addClass('d-none');
+		$('#setup').removeClass('active');
 	
-	$('#expenceContainer').removeClass('d-flex');
-	$('#expenceContainer').addClass('d-none');
-	$('#expences').removeClass('active');
-	
-	$('#setupContainer').removeClass('d-flex');
-	$('#setupContainer').addClass('d-none');
-	$('#setup').removeClass('active');
-	
-	$('#summaryContainer').removeClass('d-flex');
-	$('#summaryContainer').addClass('d-none');
-	$('#summary').removeClass('active');
-	
-}
-function showExpenceManager(){
-	
-	$('#initialContent').removeClass('d-flex');
-	$('#initialContent').addClass('d-none');
-	
-	$('#incomesContainer').removeClass('d-flex');
-	$('#incomesContainer').addClass('d-none');
-	$('#incomes').removeClass('active');
-	
-	$('#expenceContainer').removeClass('d-none');
-	$('#expenceContainer').addClass('d-flex');
-	$('#expences').addClass('active');
-	
-	$('#setupContainer').removeClass('d-flex');
-	$('#setupContainer').addClass('d-none');
-	$('#setup').removeClass('active');
-	
-	$('#summaryContainer').removeClass('d-flex');
-	$('#summaryContainer').addClass('d-none');
-	$('#summary').removeClass('active');
-}
-function showSetupManager(){
-	$('#initialContent').removeClass('d-flex');
-	$('#initialContent').addClass('d-none');
-	
-	$('#incomesContainer').removeClass('d-flex');
-	$('#incomesContainer').addClass('d-none');
-	$('#incomes').removeClass('active');
-	
-	$('#expenceContainer').removeClass('d-flex');
-	$('#expenceContainer').addClass('d-none');
-	$('#expences').removeClass('active');
-	
-	$('#setupContainer').removeClass('d-none');
-	$('#setupContainer').addClass('d-flex');
-	$('#setup').addClass('active');
-	
-	$('#summaryContainer').removeClass('d-flex');
-	$('#summaryContainer').addClass('d-none');
-	$('#summary').removeClass('active');
-}
-function showSummaryManager()
-{
-	$('#initialContent').removeClass('d-flex');
-	$('#initialContent').addClass('d-none');
-	
-	$('#incomesContainer').removeClass('d-flex');
-	$('#incomesContainer').addClass('d-none');
-	$('#incomes').removeClass('active');
-	
-	$('#expenceContainer').removeClass('d-flex');
-	$('#expenceContainer').addClass('d-none');
-	$('#expences').removeClass('active');
-	
-	$('#setupContainer').removeClass('d-flex');
-	$('#setupContainer').addClass('d-none');
-	$('#setup').removeClass('active');
-	
-	$('#summaryContainer').removeClass('d-none');
-	$('#summaryContainer').addClass('d-flex');
-	$('#summary').addClass('active');
+		$('#summaryContainer').removeClass('d-flex');
+		$('#summaryContainer').addClass('d-none');
+		$('#summary').removeClass('active');
+	}
+	else if(id=="expences"){
+		$('#initialContent').removeClass('d-flex');
+		$('#initialContent').addClass('d-none');
+		
+		$('#incomesContainer').removeClass('d-flex');
+		$('#incomesContainer').addClass('d-none');
+		$('#incomes').removeClass('active');
+		
+		$('#expenceContainer').removeClass('d-none');
+		$('#expenceContainer').addClass('d-flex');
+		$('#expences').addClass('active');
+		
+		$('#setupContainer').removeClass('d-flex');
+		$('#setupContainer').addClass('d-none');
+		$('#setup').removeClass('active');
+		
+		$('#summaryContainer').removeClass('d-flex');
+		$('#summaryContainer').addClass('d-none');
+		$('#summary').removeClass('active');
+	}
+	else if(id=="summary"){
+		$('#initialContent').removeClass('d-flex');
+		$('#initialContent').addClass('d-none');
+		
+		$('#incomesContainer').removeClass('d-flex');
+		$('#incomesContainer').addClass('d-none');
+		$('#incomes').removeClass('active');
+		
+		$('#expenceContainer').removeClass('d-flex');
+		$('#expenceContainer').addClass('d-none');
+		$('#expences').removeClass('active');
+		
+		$('#setupContainer').removeClass('d-flex');
+		$('#setupContainer').addClass('d-none');
+		$('#setup').removeClass('active');
+		
+		$('#summaryContainer').removeClass('d-none');
+		$('#summaryContainer').addClass('d-flex');
+		$('#summary').addClass('active');
+	}
+	else if(id=="setup"){
+		$('#initialContent').removeClass('d-flex');
+		$('#initialContent').addClass('d-none');
+		
+		$('#incomesContainer').removeClass('d-flex');
+		$('#incomesContainer').addClass('d-none');
+		$('#incomes').removeClass('active');
+		
+		$('#expenceContainer').removeClass('d-flex');
+		$('#expenceContainer').addClass('d-none');
+		$('#expences').removeClass('active');
+		
+		$('#setupContainer').removeClass('d-none');
+		$('#setupContainer').addClass('d-flex');
+		$('#setup').addClass('active');
+		
+		$('#summaryContainer').removeClass('d-flex');
+		$('#summaryContainer').addClass('d-none');
+		$('#summary').removeClass('active');
+	}
 }
 // visibility functions
 /*function resizeScreen(){
@@ -287,3 +316,13 @@ function showSummaryManager()
 	 $('#register').css('min-height', registerHeight);
 	 $('#content').css('min-height', registerHeight);
 }*/
+function adjustNavBar(){
+	var screenWidth = screen.width;
+	
+	if(parseInt(screenWidth)< 992){
+		$('#navList li').removeClass('w-20');
+	}
+	else{
+		$('#navList li').addClass('w-20');
+	}
+}

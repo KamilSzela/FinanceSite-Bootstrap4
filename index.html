@@ -28,7 +28,7 @@
 				
 				<h4 class="my-5"><b>Juz dziś zacznij kontrolować swoje wydatki!</b></h4>
 				
-				<p>Pierwszym nawykiem, który jest niezbędny do sprawnego zarządzania swoim budżetem jest umiejętne archiwizowanie swoich wydatków. Niestety może być to żmudne i uciążliwe, zwłaszcza używając tradycyjnej metody z kartka papieru i kalkulatorem.
+				<p class="text-justify">Pierwszym nawykiem, który jest niezbędny do sprawnego zarządzania swoim budżetem jest umiejętne archiwizowanie swoich wydatków. Niestety może być to żmudne i uciążliwe, zwłaszcza używając tradycyjnej metody z kartka papieru i kalkulatorem.
 				Używając tej aplikacji będziesz mógł zrobić to znacznie szybciej i bez zbędnego pogrubiania swoich teczek z dokumentami. 
 				Historia wszystkich twoich wydatków będzie w jednym miejscu, bezpieczna i usystematyzowana. Da Ci to komfort planowania i pozwoli od razu zauważyć trendy w swoich wydatkach.</p>
 
@@ -76,15 +76,14 @@
 			<div class="col-sm-12">
 				
 					<nav class="navbar navbar-expand-lg navbar-dark bg-dark w-100" role="navigation">
-						<!--<div class="navbar-header">-->
-							<!--<a class="navbar-brand w-20" href="#">"Marka - Logo strony"</a>-->
-							<button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#siteNavbar">
-								<span class="navbar-toggler-icon"></span>
-							</button>
-						<!--</div>-->
+						<a class="navbar-brand" id="home" href="#"><span class="fa fa-home"> Główna</span></a>
+						<button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#siteNavbar">
+							<span class="navbar-toggler-icon"></span>
+						</button>
+					
 						<div class="collapse navbar-collapse" id="siteNavbar">
 						  <ul class="navbar-nav mr-auto w-100" id="navList">
-							<li class="nav-item w-20" id="incomes"><a class="nav-link" href="#">Nowy przychód <span class="fa fa-plus-circle"></span></a></li>
+							<li class="nav-item w-20" id="incomes"><a class="nav-link" href="#">Nowy dochód <span class="fa fa-plus-circle"></span></a></li>
 							<li class="nav-item w-20" id="expences"><a class="nav-link" href="#">Nowy wydatek <span class="fa fa-minus-circle"></span></a></li>
 							<li class="nav-item w-20" id="summary"><a class="nav-link" href="#">Bilans <span class="fa fa-line-chart"></span></a></li>
 							<li class="nav-item w-20" id="setup"><a class="nav-link" href="#">Ustawienia <span class="fa fa-wrench"></span></a></li>
@@ -96,19 +95,18 @@
 			</div>
 			<div class="col-sm-12">
 				
-				<div class="row d-none mt-2" id="initialContent">
-					<div class="col-sm-4">
-						<p>Zawartość diva content</p>
+				<div class="row d-none mt-3" id="initialContent">
+					<div class="col-lg-5 col-md-12">
 						
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-						<ul>
-							<li>111111111</li>
-							<li>222222222</li>
-							<li>333333333</li>
-							<li>444444444</li>
+						<p class="text-justify">Aplikacja Bezpożyczek.pl jest prostą w obsłudze aplikacją mobilną, dzieki której zapanujesz nad swoim budżetem. Zawartość została następująco pogrupowana: </p>
+						<ul class="list-group">
+							<li class="list-group-item bg-none text-justify"><span class="fa fa-money text-success"></span> Zakładka Nowy dochód służy dodawaniu nowego, skategoryzowanego dochodu do twojego archiwum</li>
+							<li class="list-group-item bg-none"><span class="fa fa-money text-success"></span> Zakładka Nowy wydatek umożliwia dodanie nowego, skategoryzowanego wydatku do twojego archiwum</li>
+							<li class="list-group-item bg-none"><span class="fa fa-money text-success"></span> Zakładka Bilans umożliwia przeglądanie ruchu twoich pieniędzy</li>
+							<li class="list-group-item bg-none"><span class="fa fa-money text-success"></span> Zakładka ustawienia pozwala na zmianę danych logowania, jak również edytowanie menu dochodów/wydatków</li>
 						</ul>
 					</div>
-					<div class="col-sm-8">
+					<div class="col-lg-7 col-md-12 align-self-center">
 						<figure class="figure">
 							<img src="img/sharon-mccutcheon-8lnbXtxFGZw-unsplash.jpg" class="figure-img img-fluid rounded" alt="PLaceholder">
 							<figcaption class="figure-caption text-right">Photo by Sharon McCutcheon on Unsplash</figcaption>
@@ -117,8 +115,62 @@
 					</div>
 				</div>				
 				
-				<div class="row d-none" id="incomesContainer">
-					<p>Zawartość diva #incomesContainer</p>
+				<div class="row d-none justify-content-center" id="incomesContainer">
+					<div class="col-sm-6 mt-2">
+						<div class="row">
+							<div class="col-sm-12 mb-2 text-center">
+								<h4>Dodawanie nowego dochodu</h4>
+							</div>
+							<div class="col-sm-12 mb-2">
+								<label for="#incomeAmount">Kwota dochodu: </label>
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="Podaj kwotę dochodu" id="incomeAmount">
+									<div class="input-group-append">
+										<span class="input-group-text"> PLN </span>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-12 mb-2">
+								<div class="form-group">
+									<label for="#dateIncome">Data przychodu:</label>
+									<input type="date" id="dateIncome" class="form-control" placeholder="Wybierz datę dochodu">
+								</div>
+							</div>
+							<div class="col-sm-12 mb-2 border border-success">
+								<form id="incomeCategory" class="form-group">
+									<p>Kategoria:</p>
+									<div id="Wynagrodzenie" class="custom-control custom-radio">
+										<input type="radio" class="custom-control-input" id="salary" value="Wynagrodzenie" name="incomeCategory" checked>  
+										<label class="custom-control-label" for="salary"> Wynagrodzenie</label>
+									</div>
+									<div id="Odsetkibankowe" class="custom-control custom-radio">
+										<input type="radio" class="custom-control-input" id="intrests" value="Odsetki bankowe" name="incomeCategory">
+										<label class="custom-control-label" for="intrests"> Odsetki bankowe</label>
+									</div>
+									<div id="SprzedażnaAllegro" class="custom-control custom-radio">
+										<input type="radio" class="custom-control-input" id="allegroSell" value="Sprzedaż na Allegro" name="incomeCategory">
+										<label class="custom-control-label" for="allegroSell">Sprzedaż na Allegro </label>
+									</div>
+									<div id="Inneźródło" class="custom-control custom-radio">
+										<input type="radio" class="custom-control-input" id="otherIncomeCat" value="Inne źródło" name="incomeCategory">
+										<label class="custom-control-label" for="otherIncomeCat"> Inne źródło </label>
+									</div>
+									
+								</form>
+							</div>
+							<div class="col-sm-12 mb-2">
+								<div class="form-group">
+									<label for="#dateIncome">Komentarz(opcjonalnie):</label>
+									<textarea type="text" id="commentIncome" class="form-control" placeholder="" columns="3"></textarea>
+								</div>
+							</div>
+							<div class="col-sm-12 mb-2">
+								<button class="btn btn-success btn-block" id="addIncomeButton"><span class="fa fa-save"></span> Dodaj nowy dochód</button>
+							</div>
+						</div>
+					
+						
+					</div>
 				</div>
 				<div class="row d-none" id="expenceContainer">
 					<p>Zawartość diva #expenceContainer</p>
@@ -137,6 +189,8 @@
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-	<script type="text/javascript" src="budzet.js"></script>
+	<!--Bootstrap-->
+	<script type="text/javascript" src="budzet.js"></script> 
+	
 </body>
 </html>
