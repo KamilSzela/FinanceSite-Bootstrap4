@@ -101,9 +101,9 @@
 						<p class="text-justify">Aplikacja Bezpożyczek.pl jest prostą w obsłudze aplikacją mobilną, dzieki której zapanujesz nad swoim budżetem. Zawartość została następująco pogrupowana: </p>
 						<ul class="list-group">
 							<li class="list-group-item bg-none text-justify"><span class="fa fa-money text-success"></span> Zakładka Nowy dochód służy dodawaniu nowego, skategoryzowanego dochodu do twojego archiwum</li>
-							<li class="list-group-item bg-none"><span class="fa fa-money text-success"></span> Zakładka Nowy wydatek umożliwia dodanie nowego, skategoryzowanego wydatku do twojego archiwum</li>
-							<li class="list-group-item bg-none"><span class="fa fa-money text-success"></span> Zakładka Bilans umożliwia przeglądanie ruchu twoich pieniędzy</li>
-							<li class="list-group-item bg-none"><span class="fa fa-money text-success"></span> Zakładka ustawienia pozwala na zmianę danych logowania, jak również edytowanie menu dochodów/wydatków</li>
+							<li class="list-group-item bg-none text-justify"><span class="fa fa-money text-success"></span> Zakładka Nowy wydatek umożliwia dodanie nowego, skategoryzowanego wydatku do twojego archiwum</li>
+							<li class="list-group-item bg-none text-justify"><span class="fa fa-money text-success"></span> Zakładka Bilans umożliwia przeglądanie ruchu twoich pieniędzy</li>
+							<li class="list-group-item bg-none text-justify"><span class="fa fa-money text-success"></span> Zakładka ustawienia pozwala na zmianę danych logowania, jak również edytowanie menu wprowadzania dochodów/wydatków</li>
 						</ul>
 					</div>
 					<div class="col-lg-7 col-md-12 align-self-center">
@@ -160,7 +160,7 @@
 							</div>
 							<div class="col-sm-12 mb-2">
 								<div class="form-group">
-									<label for="#dateIncome">Komentarz(opcjonalnie):</label>
+									<label for="#commentIncome">Komentarz(opcjonalnie):</label>
 									<textarea type="text" id="commentIncome" class="form-control" placeholder="" columns="3"></textarea>
 								</div>
 							</div>
@@ -172,8 +172,132 @@
 						
 					</div>
 				</div>
-				<div class="row d-none" id="expenceContainer">
-					<p>Zawartość diva #expenceContainer</p>
+				<div class="row d-none justify-content-center" id="expenceContainer">
+					<div class="col-sm-6 mt-2">
+						<div class="row">
+							<div class="col-sm-12 mb-2 text-center">
+								<h4>Dodawanie nowego wydatku</h4>
+							</div>
+							<div class="col-sm-12 mb-2">
+								<label for="#expenceAmount">Kwota wydatku: </label>
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="Podaj kwotę wydatku" id="expenceAmount">
+									<div class="input-group-append">
+										<span class="input-group-text"> PLN </span>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-12 mb-2">
+								<div class="form-group">
+									<label for="#dateExpence">Data wydatku:</label>
+									<input type="date" id="dateExpence" class="form-control" placeholder="Wybierz datę wydatku">
+								</div>
+							</div>
+							<div class="col-sm-12 mb-2 border border-success">
+								<form id="expencePaymentWay" class="form-group">
+									<p>Sposób płatności:</p>
+									<div class="custom-control custom-radio" id="Gotówka">
+										<input type="radio" class="custom-control-input" id="money" value="Gotówka" name="payment">
+										<label class="custom-control-label" for="money"> Gotówka </label>
+									</div>
+									<div class="custom-control custom-radio" id="KartaDebetowa">
+										<input type="radio" class="custom-control-input" id="debetCard" value="KartaDebetowa" name="payment">
+										<label class="custom-control-label" for="debetCard"> Karta Debetowa </label>
+									</div>
+									<div class="custom-control custom-radio" id="KartaKredytowa">
+										<input type="radio" class="custom-control-input" id="creditCard" value="KartaKredytowa" name="payment">
+										<label class="custom-control-label" for="creditCard"> Karta Kredytowa </label>
+									</div>
+								</form>
+							</div>
+							<div class="col-sm-12 mb-2 border border-success">
+								<form id="expenceCategory">
+									<p>Kategoria wydatku:</p>
+									<div class="custom-control custom-radio" id="Jedzenie">
+										<input type="radio" class="custom-control-input" name="expenceCat" id="eating" value="Jedzenie">
+										<label class="custom-control-label" for="eating">Jedzenie</label>
+									</div>
+									<div class="custom-control custom-radio" id="Mieszkanie">
+										<input type="radio" class="custom-control-input" name="expenceCat" id="roomPayment" value="Mieszkanie">
+										<label class="custom-control-label" for="roomPayment">Mieszkanie</label>
+									</div>
+									<div class="custom-control custom-radio" id="Transport">
+										<input type="radio" class="custom-control-input" name="expenceCat" id="vehicles" value="Transport">
+										<label class="custom-control-label" for="vehicles">Transport</label>
+									</div>
+									<div class="custom-control custom-radio" id="Telekomunikacja">
+										<input type="radio" class="custom-control-input" name="expenceCat" id="communicationMedia" value="Telekomunikacja">
+										<label class="custom-control-label" for="communicationMedia">Telekomunikacja</label>
+									</div>
+									<div class="custom-control custom-radio" id="Opiekazdrowotna">
+										<input type="radio" class="custom-control-input" name="expenceCat" id="healthCare" value="Opieka zdrowotna">
+										<label class="custom-control-label" for="healthCare">Opieka zdrowotna</label>
+									</div>
+									<div class="custom-control custom-radio" id="Ubranie">
+										<input type="radio" class="custom-control-input" name="expenceCat" id="clothing" value="Ubranie">
+										<label class="custom-control-label" for="clothing">Ubranie</label>
+									</div>
+									<div class="custom-control custom-radio" id="Ubranie">
+										<input type="radio" class="custom-control-input" name="expenceCat" id="clothing" value="Ubranie">
+										<label class="custom-control-label" for="clothing">Ubranie</label>
+									</div>
+									<div class="custom-control custom-radio" id="Higiena">
+										<input type="radio" class="custom-control-input" name="expenceCat" id="hygene" value="Higiena">
+										<label class="custom-control-label" for="hygene">Higiena</label>
+									</div>
+									<div class="custom-control custom-radio" id="Dzieci">
+										<input type="radio" class="custom-control-input" name="expenceCat" id="children" value="Dzieci">
+										<label class="custom-control-label" for="children">Dzieci</label>
+									</div>
+									<div class="custom-control custom-radio" id="Rozrywka">
+										<input type="radio" class="custom-control-input" name="expenceCat" id="entertainment" value="Rozrywka">
+										<label class="custom-control-label" for="entertainment">Rozrywka</label>
+									</div>
+									<div class="custom-control custom-radio" id="Wycieczka">
+										<input type="radio" class="custom-control-input" name="expenceCat" id="journey" value="Wycieczka">
+										<label class="custom-control-label" for="journey">Wycieczka</label>
+									</div>
+									<div class="custom-control custom-radio" id="Szkolenia">
+										<input type="radio" class="custom-control-input" name="expenceCat" id="instructions" value="Szkolenia">
+										<label class="custom-control-label" for="instructions">Szkolenia</label>
+									</div>
+									<div class="custom-control custom-radio" id="Książki">
+										<input type="radio" class="custom-control-input" name="expenceCat" id="books" value="Książki">
+										<label class="custom-control-label" for="books">Książki</label>
+									</div>
+									<div class="custom-control custom-radio" id="Oszczędności">
+										<input type="radio" class="custom-control-input" name="expenceCat" id="savings" value="Oszczędności">
+										<label class="custom-control-label" for="savings">Oszczędności</label>
+									</div>
+									<div class="custom-control custom-radio" id="Darowizna">
+										<input type="radio" class="custom-control-input" name="expenceCat" id="donation" value="Darowizna">
+										<label class="custom-control-label" for="donation">Darowizna</label>
+									</div>
+									<div class="custom-control custom-radio" id="Spłatadługów">
+										<input type="radio" class="custom-control-input" name="expenceCat" id="debtsPayment" value="Spłatadługów">
+										<label class="custom-control-label" for="debtsPayment">Spłatadługów</label>
+									</div>
+									<div class="custom-control custom-radio" id="Nazłotąjesień,czyliemeryturę">
+										<input type="radio" class="custom-control-input" name="expenceCat" id="retirement" value="Nazłotąjesień,czyliemeryturę">
+										<label class="custom-control-label" for="retirement">Nazłotąjesień,czyliemeryturę</label>
+									</div>
+									<div class="custom-control custom-radio" id="Innewydatki">
+										<input type="radio" class="custom-control-input" name="expenceCat" id="otherExpences" value="Innewydatki">
+										<label class="custom-control-label" for="otherExpences">Innewydatki</label>
+									</div>
+								</form>
+							</div>
+							<div class="col-sm-12 mb-2">
+								<div class="form-group">
+									<label for="#commentExpence">Komentarz(opcjonalnie):</label>
+									<textarea type="text" id="commentExpence" class="form-control" placeholder="" columns="3"></textarea>
+								</div>
+							</div>
+							<div class="col-sm-12 mb-2">
+								<button class="btn btn-success btn-block" id="addExpenceButton"><span class="fa fa-save"></span> Dodaj nowy wydatek</button>
+							</div>
+						</div>
+					</div>
 				</div>
 				<div class="row d-none" id="summaryContainer">
 					<p>Zawartość diva #summaryContainer</p>
