@@ -2,8 +2,10 @@ var lastUserID = 0;
 var loggedUserID = 0;
 var usersObj = [];
 var incomesObj = [];
+var expencesObj = [];
 var checkedID = 0;
 var lastIncomeID = 0;
+var lastExpenceID = 0;
 
 $(document).ready(function(){	
 	loadUsersFromLocalStorage();
@@ -152,7 +154,7 @@ function singUserIn()
 		if(emailValue != usersObj[checkedID-1].email) {alert("Podano błędny adres email"); return;}
 		loggedUserID = checkedID;
 		alert("Zostałeś zalogowany!");
-		//loadExpencesOfLoggedUser();
+		loadExpencesOfLoggedUser();
 		loadIncomesOfLoggedUser();
 		showMenu();
 	}
@@ -448,3 +450,122 @@ function changeCommasToDots(string){
 	}
 	return newString;
 }
+//add income functions
+//add expence functions
+	$('#addExpenceButton').on('click',function(){
+	addNewExpence();
+});
+function addNewExpence()
+{
+	
+	lastExpenceID++;
+	var ExpenceInArray = {
+		id: 0,
+		userId: 0,
+		amount: "",
+		date: "",
+		payment: "",
+		source: "",
+		comment: ""
+	};
+	var amount;
+	amount = $('#expenceAmount').val();
+	if(amount == '') {alert("Proszę podaj rozmiar wydatku"); return;}
+	var date;
+	date = $('#dateExpence').val();
+	if(date == '') {alert("Proszę podaj datę"); return;}
+	var wayOfPayment;
+	wayOfPayment = $("input[type=radio][name=payment]:checked").val();
+	var category;
+	category = $("input[type=radio][name=expenceCat]:checked").val();
+	var comment;
+	comment = $('#commentExpence').val();
+	var string = lastExpenceID.toString()+"/"+ loggedUserID.toString()+"/"+ amount +"/"+date+"/"+wayOfPayment+"/"+category+"/"+comment+"/";
+	
+	
+	ExpenceInArray.id = lastExpenceID;
+	ExpenceInArray.userId = loggedUserID;
+	ExpenceInArray.amount = amount;
+	ExpenceInArray.date = date;
+	ExpenceInArray.payment = wayOfPayment;
+	ExpenceInArray.source = category;
+	ExpenceInArray.comment = comment;
+	expencesObj.push(ExpenceInArray);
+	
+	var nameOfExpence = "Expence" + lastExpenceID.toString();
+	var valueOfExpence = string;
+	localStorage.setItem(nameOfExpence, valueOfExpence);
+	
+	alert("Dodałeś nowy wydatek!");
+	
+	$('#expenceAmount').val("");
+	$('#dateExpence').val("");
+	$('#commentExpence').val("");
+	
+}
+function loadExpencesOfLoggedUser()
+{
+	for(var i=0; i<localStorage.length; i++){
+		loadExpencestoArray(i);
+	}
+
+	expencesObj.sort(function(a, b){return a.id - b.id;});
+	
+}
+function loadExpencestoArray(i)
+{
+	var nameOfValue = localStorage.key(i); 
+	if(nameOfValue.charAt(0)=='E'){	
+		var valueOfName = localStorage.getItem(nameOfValue);
+		getExpenceDataFromStringWithDashes(valueOfName);
+	}
+}
+function getExpenceDataFromStringWithDashes(valueOfName)
+{
+	var dashCounter = 0;
+	var string = "";
+	var ExpenceInArray = {
+	id: 0,
+	userId: 0,
+	amount: "",
+	date: "",
+	payment: "",
+	source: "",
+	comment: ""
+};
+	for(var i=0; i<valueOfName.length; i++)
+	{
+		if(valueOfName.charAt(i) != "/"){
+			string = string + valueOfName.substr(i,1);
+		}
+		if(valueOfName.charAt(i) == '/')
+		{
+	
+			switch(dashCounter)
+			{
+				case 0: ExpenceInArray.id = parseInt(string); 
+					if(lastExpenceID<ExpenceInArray.id)
+						lastExpenceID = ExpenceInArray.id; 
+					
+					string = ""; break;
+				case 1: ExpenceInArray.userId = parseInt(string); string = ""; 
+					if(ExpenceInArray.userId != loggedUserID) return;
+				break;
+				case 2: 
+					string = changeCommasToDots(string);
+					var expenceValue = parseFloat(string);
+					ExpenceInArray.amount = Math.round(expenceValue*100)/100; string = ""; break;
+				case 3: ExpenceInArray.date = string; string = ""; break;
+				case 4: ExpenceInArray.payment = string; string = ""; break;
+				case 5: ExpenceInArray.source = string; string = ""; break;
+				case 6: ExpenceInArray.comment = string; string = ""; break;
+			}
+			dashCounter++;
+		}
+		if (dashCounter == 7)
+		{
+			expencesObj.push(ExpenceInArray);
+		}
+	}
+}
+//add expence functions
