@@ -238,6 +238,9 @@ function showContent(id){
 		$('#incomesContainer').removeClass('d-none');
 		$('#incomesContainer').addClass('d-flex');
 		$('#incomes').addClass('active');
+		$('#addIncomeFunctionMessage').removeClass("text-success");
+		$('#addIncomeFunctionMessage').addClass("text-danger");
+		$('#addIncomeFunctionMessage').html("");
 	
 		$('#expenceContainer').removeClass('d-flex');
 		$('#expenceContainer').addClass('d-none');
@@ -262,6 +265,9 @@ function showContent(id){
 		$('#expenceContainer').removeClass('d-none');
 		$('#expenceContainer').addClass('d-flex');
 		$('#expences').addClass('active');
+		$('#addExpenceFunctionMessage').removeClass("text-success");
+		$('#addExpenceFunctionMessage').addClass("text-danger");
+		$('#addExpenceFunctionMessage').html("");
 		
 		$('#setupContainer').removeClass('d-flex');
 		$('#setupContainer').addClass('d-none');
@@ -345,18 +351,13 @@ function addNewIncome(){
 		cathegory: "",
 		comment: ""
 	};
-	var amount;
-	amount = $('#incomeAmount').val();
-	if(amount == '') {alert("Proszę podaj rozmiar przychodu"); return;}
-	var date;
-	date = $('#dateIncome').val();
-	if(date == '') {alert("Proszę podaj datę przychodu"); return;}
-	var category;
-	category = $("input[type=radio][name=incomeCategory]:checked").val();
-	var comment;
-	comment = $('#commentIncome').val();
+	var amount = $('#incomeAmount').val();
+	if(amount == '') {$('#addIncomeFunctionMessage').html("<p class=\"h5\"><b>Proszę podaj kwotę dochodu</b></p>"); return;}
+	var date = $('#dateIncome').val();
+	if(date == '') {$('#addIncomeFunctionMessage').html("<p class=\"h5\"><b>Proszę podaj datę uzyskania dochodu</b></p>"); return;}
+	var category = $("input[type=radio][name=incomeCategory]:checked").val();
+	var comment = $('#commentIncome').val();
 	var string = lastIncomeID.toString()+"/"+ loggedUserID.toString()+"/"+ amount +"/"+date+"/"+category+"/"+comment+"/";
-	
 	
 	IncomeInArray.id = lastIncomeID;
 	IncomeInArray.userId = loggedUserID;
@@ -370,7 +371,9 @@ function addNewIncome(){
 	var valueOfIncome = string;
 	localStorage.setItem(nameOfIncome, valueOfIncome);
 	
-	alert("Dodałeś nowy przychód!");
+	$('#addIncomeFunctionMessage').removeClass("text-danger");
+	$('#addIncomeFunctionMessage').addClass("text-success");
+	$('#addIncomeFunctionMessage').html("<p class=\"h5\"><b>Dodałeś nowy dochód do swojego archiwum!</b></p>");
 	
 	$('#incomeAmount').val("");
 	$('#dateIncome').val("");
@@ -456,8 +459,7 @@ function changeCommasToDots(string){
 	addNewExpence();
 });
 function addNewExpence()
-{
-	
+{	
 	lastExpenceID++;
 	var ExpenceInArray = {
 		id: 0,
@@ -468,21 +470,15 @@ function addNewExpence()
 		source: "",
 		comment: ""
 	};
-	var amount;
-	amount = $('#expenceAmount').val();
-	if(amount == '') {alert("Proszę podaj rozmiar wydatku"); return;}
-	var date;
-	date = $('#dateExpence').val();
-	if(date == '') {alert("Proszę podaj datę"); return;}
-	var wayOfPayment;
-	wayOfPayment = $("input[type=radio][name=payment]:checked").val();
-	var category;
-	category = $("input[type=radio][name=expenceCat]:checked").val();
-	var comment;
-	comment = $('#commentExpence').val();
+	var amount = $('#expenceAmount').val();
+	if(amount == '') {$('#addExpenceFunctionMessage').html("<p class=\"h5\"><b>Proszę podaj kwotę wydatku</b></p>"); return;}
+	var date = $('#dateExpence').val();
+	if(date == '') {$('#addExpenceFunctionMessage').html("<p class=\"h5\"><b>Proszę podaj datę</b></p>"); return;}
+	var wayOfPayment = $("input[type=radio][name=payment]:checked").val();
+	var category = $("input[type=radio][name=expenceCat]:checked").val();
+	var comment = $('#commentExpence').val();
 	var string = lastExpenceID.toString()+"/"+ loggedUserID.toString()+"/"+ amount +"/"+date+"/"+wayOfPayment+"/"+category+"/"+comment+"/";
-	
-	
+		
 	ExpenceInArray.id = lastExpenceID;
 	ExpenceInArray.userId = loggedUserID;
 	ExpenceInArray.amount = amount;
@@ -495,8 +491,9 @@ function addNewExpence()
 	var nameOfExpence = "Expence" + lastExpenceID.toString();
 	var valueOfExpence = string;
 	localStorage.setItem(nameOfExpence, valueOfExpence);
-	
-	alert("Dodałeś nowy wydatek!");
+	$('#addExpenceFunctionMessage').removeClass("text-danger");
+	$('#addExpenceFunctionMessage').addClass("text-success");
+	$('#addExpenceFunctionMessage').html("<p class=\"h5\"><b>Dodałeś nowy wydatek do archiwum!</b></p>");
 	
 	$('#expenceAmount').val("");
 	$('#dateExpence').val("");
