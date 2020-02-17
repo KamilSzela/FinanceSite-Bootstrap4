@@ -300,7 +300,54 @@
 					</div>
 				</div>
 				<div class="row d-none" id="summaryContainer">
-					<p>Zawartość diva #summaryContainer</p>
+					<div class="col-sm-12">
+						<div class="row justify-content-center">
+							<div class="col-md-6 col-sm-12">
+								<div class="row">
+									<div class="col-sm-12 my-2">
+										<h4 class="text-center"><b>Podsumowanie wydatków oraz dochodów za podany okres</b></h4>
+									</div>
+									<div class="col-sm-12 mb-2">
+										<div id="choosePeriodDiv" class="input-group">
+											<select class="custom-select" id="dateSpan">
+												<option value="lastMonth" selected>Obecny miesiąc</option>
+												<option value="previousMonth" >Poprzedni miesiąc</option>
+												<option value="lastYear" >Obecny rok</option>
+												<option value="nonStandardSpan" >Wybierz niestandardowy okres</option>
+											</select>
+										</div>
+									</div>
+									<div id="nonStandardDateInput" class="d-none col-sm-12 mb-2">
+										<div class="row">
+											<div class="col-sm-12">
+												<label for="beginnigTimeSpan">Data początkowa</label>
+												<input type="date" id="beginnigTimeSpan" class="form-control">
+											</div>
+											<div class="col-sm-12">
+												<label for="endingTimeSpan">Data końcowa</label>
+												<input type="date" id="endingTimeSpan" class="form-control">
+											</div>
+										</div>	
+									</div>
+									<div class="col-sm-12 mb-2">
+										<button class="btn btn-success btn-block" id="generateSummaryButton" type="button">Generuj tabele</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row justify-content-center">
+							<div class="col-sm-10">
+								<div class="row">
+									<div class="col-sm-12">
+										<table id="expenceTable" class="table table-dark table-striped"></table>
+									</div>
+									<div class="col-sm-12" id="chartExpencesContainer">
+									
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 				<div class="row d-none" id="setupContainer">
 					<p>Zawartość diva #setupContainer</p>
@@ -314,6 +361,8 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 	<!--Bootstrap-->
+	<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>-->
+	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 	<script type="text/javascript" src="budzet.js"></script> 
 	
 </body>
