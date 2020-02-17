@@ -80,7 +80,7 @@ function getDataFromStringWithDashes(valueOfName)
 // sign user up and in
 $('#signUp').on('click', function(){
 	signUpAUser();
-	location.reload();
+	//location.reload();
 	$("#name").val("");
 	$("#password").val("");
 	$("#email").val("");
@@ -92,6 +92,10 @@ $('#signIn').on('click', function(){
 
 function signUpAUser()
 {
+	$('#loginFunctionMessage').removeClass("text-success");
+	$('#loginFunctionMessage').addClass("text-danger");
+	$('#loginFunctionMessage').html("");
+	
 	var loginValue = $("#name").val();
 	var passwordValue = $("#password").val();
 	var emailValue = $("#email").val();
@@ -102,12 +106,11 @@ function signUpAUser()
 		email: ""
 	};
 	if(checkIfLoginIsValid(loginValue)){
-		if(passwordValue == '') {alert("Proszę wpisać hasło"); return;}
-		if(emailValue == '') {alert("Proszę wpisać poprawny adres email"); return;}
+		if(passwordValue == '') {$('#loginFunctionMessage').html("Proszę wpisać hasło"); return;}
+		if(emailValue == '') {$('#loginFunctionMessage').html("Proszę wpisać poprawny adres email"); return;}
 		lastUserID++;
 		var nameOfUser = "User" + lastUserID.toString();
 		var userRecord = lastUserID.toString() +'/'+loginValue+'/'+passwordValue+'/'+emailValue+'/';
-		
 		
 		UserInArray.id = lastUserID;
 		UserInArray.login = loginValue;
@@ -116,17 +119,20 @@ function signUpAUser()
 		usersObj.push(UserInArray);
 		
 		localStorage.setItem(nameOfUser, userRecord);
-		alert("Zostałeś zarejestrowany!");
+		
+		$('#loginFunctionMessage').removeClass("text-danger");
+		$('#loginFunctionMessage').addClass("text-success");
+		$('#loginFunctionMessage').html("Zostałeś zarejestrowany!");
 	}
 }
 function checkIfLoginIsValid(loginValue){
 	if(loginValue == "") {
-		alert("Wpisz swój login");
+		$('#loginFunctionMessage').html("Wpisz swój login");
 		return false;
 	}
 	else {
 			for(var i=0; i<usersObj.length; i++){
-				if(checkifLoginAlreadyExist(i, loginValue)) {alert("Ten login już istnieje. Proszę wybrać inny login.");
+				if(checkifLoginAlreadyExist(i, loginValue)) {$('#loginFunctionMessage').html("Ten login już istnieje. Proszę wybrać inny login.");
 					return false;
 				}
 		}
@@ -140,25 +146,30 @@ function checkifLoginAlreadyExist(i, loginValue)
 }
 function singUserIn()
 {
+	$('#loginFunctionMessage').removeClass("text-success");
+	$('#loginFunctionMessage').addClass("text-danger");
+	$('#loginFunctionMessage').html("");
 	var loginValue = $("#name").val();
 	var passwordValue = $("#password").val();
 	var emailValue = $("#email").val();
 	if(loginValue == "") {
-		alert("Wpisz swój login"); 
+		$('#loginFunctionMessage').html("Wpisz swój login"); 
 		return;
 	}
 	else if(checkLogin(loginValue)) {
-		if(passwordValue == '') {alert("Proszę wpisać hasło"); return;}
-		if(emailValue == '') {alert("Proszę wpisać prawidłowy adres email"); return;}
-		if(passwordValue != usersObj[checkedID-1].password) {alert("Podano błędne hasło"); return;}
-		if(emailValue != usersObj[checkedID-1].email) {alert("Podano błędny adres email"); return;}
+		if(passwordValue == '') {$('#loginFunctionMessage').html("Proszę wpisać hasło"); return;}
+		if(emailValue == '') {$('#loginFunctionMessage').html("Proszę wpisać prawidłowy adres email"); return;}
+		if(passwordValue != usersObj[checkedID-1].password) {$('#loginFunctionMessage').html("Podano błędne hasło"); return;}
+		if(emailValue != usersObj[checkedID-1].email) {$('#loginFunctionMessage').html("Podano błędny adres email"); return;}
 		loggedUserID = checkedID;
-		alert("Zostałeś zalogowany!");
+		$('#loginFunctionMessage').removeClass("text-danger");
+		$('#loginFunctionMessage').addClass("text-success");
+		$('#loginFunctionMessage').html("Zostałeś zalogowany!");
 		loadExpencesOfLoggedUser();
 		loadIncomesOfLoggedUser();
 		showMenu();
 	}
-	else alert("Podany login nie istnieje!");
+	else $('#loginFunctionMessage').html("Podany login nie istnieje!");
 }
 function checkLogin(loginValue)
 {
@@ -341,8 +352,6 @@ $('#addIncomeButton').on('click',function(){
 	addNewIncome();
 });
 function addNewIncome(){
-	
-	lastIncomeID++;
 	var IncomeInArray = {
 		id: 0,
 		userId: 0,
@@ -351,12 +360,17 @@ function addNewIncome(){
 		cathegory: "",
 		comment: ""
 	};
+	$('#addIncomeFunctionMessage').removeClass("text-success");
+	$('#addIncomeFunctionMessage').addClass("text-danger");
+	$('#addIncomeFunctionMessage').html("");
+	
 	var amount = $('#incomeAmount').val();
 	if(amount == '') {$('#addIncomeFunctionMessage').html("<p class=\"h5\"><b>Proszę podaj kwotę dochodu</b></p>"); return;}
 	var date = $('#dateIncome').val();
 	if(date == '') {$('#addIncomeFunctionMessage').html("<p class=\"h5\"><b>Proszę podaj datę uzyskania dochodu</b></p>"); return;}
 	var category = $("input[type=radio][name=incomeCategory]:checked").val();
 	var comment = $('#commentIncome').val();
+	lastIncomeID++;
 	var string = lastIncomeID.toString()+"/"+ loggedUserID.toString()+"/"+ amount +"/"+date+"/"+category+"/"+comment+"/";
 	
 	IncomeInArray.id = lastIncomeID;
@@ -460,7 +474,6 @@ function changeCommasToDots(string){
 });
 function addNewExpence()
 {	
-	lastExpenceID++;
 	var ExpenceInArray = {
 		id: 0,
 		userId: 0,
@@ -470,6 +483,10 @@ function addNewExpence()
 		source: "",
 		comment: ""
 	};
+	$('#addExpenceFunctionMessage').removeClass("text-success");
+	$('#addExpenceFunctionMessage').addClass("text-danger");
+	$('#addExpenceFunctionMessage').html("");
+	
 	var amount = $('#expenceAmount').val();
 	if(amount == '') {$('#addExpenceFunctionMessage').html("<p class=\"h5\"><b>Proszę podaj kwotę wydatku</b></p>"); return;}
 	var date = $('#dateExpence').val();
@@ -477,6 +494,7 @@ function addNewExpence()
 	var wayOfPayment = $("input[type=radio][name=payment]:checked").val();
 	var category = $("input[type=radio][name=expenceCat]:checked").val();
 	var comment = $('#commentExpence').val();
+	lastExpenceID++;
 	var string = lastExpenceID.toString()+"/"+ loggedUserID.toString()+"/"+ amount +"/"+date+"/"+wayOfPayment+"/"+category+"/"+comment+"/";
 		
 	ExpenceInArray.id = lastExpenceID;
@@ -491,6 +509,7 @@ function addNewExpence()
 	var nameOfExpence = "Expence" + lastExpenceID.toString();
 	var valueOfExpence = string;
 	localStorage.setItem(nameOfExpence, valueOfExpence);
+	
 	$('#addExpenceFunctionMessage').removeClass("text-danger");
 	$('#addExpenceFunctionMessage').addClass("text-success");
 	$('#addExpenceFunctionMessage').html("<p class=\"h5\"><b>Dodałeś nowy wydatek do archiwum!</b></p>");
