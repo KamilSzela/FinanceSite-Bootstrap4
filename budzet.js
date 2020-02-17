@@ -2,8 +2,10 @@ var lastUserID = 0;
 var loggedUserID = 0;
 var usersObj = [];
 var incomesObj = [];
+var expencesObj = [];
 var checkedID = 0;
 var lastIncomeID = 0;
+var lastExpenceID = 0;
 
 $(document).ready(function(){	
 	loadUsersFromLocalStorage();
@@ -78,7 +80,7 @@ function getDataFromStringWithDashes(valueOfName)
 // sign user up and in
 $('#signUp').on('click', function(){
 	signUpAUser();
-	location.reload();
+	//location.reload();
 	$("#name").val("");
 	$("#password").val("");
 	$("#email").val("");
@@ -90,6 +92,10 @@ $('#signIn').on('click', function(){
 
 function signUpAUser()
 {
+	$('#loginFunctionMessage').removeClass("text-success");
+	$('#loginFunctionMessage').addClass("text-danger");
+	$('#loginFunctionMessage').html("");
+	
 	var loginValue = $("#name").val();
 	var passwordValue = $("#password").val();
 	var emailValue = $("#email").val();
@@ -100,12 +106,11 @@ function signUpAUser()
 		email: ""
 	};
 	if(checkIfLoginIsValid(loginValue)){
-		if(passwordValue == '') {alert("Proszę wpisać hasło"); return;}
-		if(emailValue == '') {alert("Proszę wpisać poprawny adres email"); return;}
+		if(passwordValue == '') {$('#loginFunctionMessage').html("Proszę wpisać hasło"); return;}
+		if(emailValue == '') {$('#loginFunctionMessage').html("Proszę wpisać poprawny adres email"); return;}
 		lastUserID++;
 		var nameOfUser = "User" + lastUserID.toString();
 		var userRecord = lastUserID.toString() +'/'+loginValue+'/'+passwordValue+'/'+emailValue+'/';
-		
 		
 		UserInArray.id = lastUserID;
 		UserInArray.login = loginValue;
@@ -114,17 +119,20 @@ function signUpAUser()
 		usersObj.push(UserInArray);
 		
 		localStorage.setItem(nameOfUser, userRecord);
-		alert("Zostałeś zarejestrowany!");
+		
+		$('#loginFunctionMessage').removeClass("text-danger");
+		$('#loginFunctionMessage').addClass("text-success");
+		$('#loginFunctionMessage').html("Zostałeś zarejestrowany!");
 	}
 }
 function checkIfLoginIsValid(loginValue){
 	if(loginValue == "") {
-		alert("Wpisz swój login");
+		$('#loginFunctionMessage').html("Wpisz swój login");
 		return false;
 	}
 	else {
 			for(var i=0; i<usersObj.length; i++){
-				if(checkifLoginAlreadyExist(i, loginValue)) {alert("Ten login już istnieje. Proszę wybrać inny login.");
+				if(checkifLoginAlreadyExist(i, loginValue)) {$('#loginFunctionMessage').html("Ten login już istnieje. Proszę wybrać inny login.");
 					return false;
 				}
 		}
@@ -138,25 +146,30 @@ function checkifLoginAlreadyExist(i, loginValue)
 }
 function singUserIn()
 {
+	$('#loginFunctionMessage').removeClass("text-success");
+	$('#loginFunctionMessage').addClass("text-danger");
+	$('#loginFunctionMessage').html("");
 	var loginValue = $("#name").val();
 	var passwordValue = $("#password").val();
 	var emailValue = $("#email").val();
 	if(loginValue == "") {
-		alert("Wpisz swój login"); 
+		$('#loginFunctionMessage').html("Wpisz swój login"); 
 		return;
 	}
 	else if(checkLogin(loginValue)) {
-		if(passwordValue == '') {alert("Proszę wpisać hasło"); return;}
-		if(emailValue == '') {alert("Proszę wpisać prawidłowy adres email"); return;}
-		if(passwordValue != usersObj[checkedID-1].password) {alert("Podano błędne hasło"); return;}
-		if(emailValue != usersObj[checkedID-1].email) {alert("Podano błędny adres email"); return;}
+		if(passwordValue == '') {$('#loginFunctionMessage').html("Proszę wpisać hasło"); return;}
+		if(emailValue == '') {$('#loginFunctionMessage').html("Proszę wpisać prawidłowy adres email"); return;}
+		if(passwordValue != usersObj[checkedID-1].password) {$('#loginFunctionMessage').html("Podano błędne hasło"); return;}
+		if(emailValue != usersObj[checkedID-1].email) {$('#loginFunctionMessage').html("Podano błędny adres email"); return;}
 		loggedUserID = checkedID;
-		alert("Zostałeś zalogowany!");
-		//loadExpencesOfLoggedUser();
+		$('#loginFunctionMessage').removeClass("text-danger");
+		$('#loginFunctionMessage').addClass("text-success");
+		$('#loginFunctionMessage').html("Zostałeś zalogowany!");
+		loadExpencesOfLoggedUser();
 		loadIncomesOfLoggedUser();
 		showMenu();
 	}
-	else alert("Podany login nie istnieje!");
+	else $('#loginFunctionMessage').html("Podany login nie istnieje!");
 }
 function checkLogin(loginValue)
 {
@@ -236,6 +249,9 @@ function showContent(id){
 		$('#incomesContainer').removeClass('d-none');
 		$('#incomesContainer').addClass('d-flex');
 		$('#incomes').addClass('active');
+		$('#addIncomeFunctionMessage').removeClass("text-success");
+		$('#addIncomeFunctionMessage').addClass("text-danger");
+		$('#addIncomeFunctionMessage').html("");
 	
 		$('#expenceContainer').removeClass('d-flex');
 		$('#expenceContainer').addClass('d-none');
@@ -260,6 +276,9 @@ function showContent(id){
 		$('#expenceContainer').removeClass('d-none');
 		$('#expenceContainer').addClass('d-flex');
 		$('#expences').addClass('active');
+		$('#addExpenceFunctionMessage').removeClass("text-success");
+		$('#addExpenceFunctionMessage').addClass("text-danger");
+		$('#addExpenceFunctionMessage').html("");
 		
 		$('#setupContainer').removeClass('d-flex');
 		$('#setupContainer').addClass('d-none');
@@ -333,8 +352,6 @@ $('#addIncomeButton').on('click',function(){
 	addNewIncome();
 });
 function addNewIncome(){
-	
-	lastIncomeID++;
 	var IncomeInArray = {
 		id: 0,
 		userId: 0,
@@ -343,18 +360,18 @@ function addNewIncome(){
 		cathegory: "",
 		comment: ""
 	};
-	var amount;
-	amount = $('#incomeAmount').val();
-	if(amount == '') {alert("Proszę podaj rozmiar przychodu"); return;}
-	var date;
-	date = $('#dateIncome').val();
-	if(date == '') {alert("Proszę podaj datę przychodu"); return;}
-	var category;
-	category = $("input[type=radio][name=incomeCategory]:checked").val();
-	var comment;
-	comment = $('#commentIncome').val();
-	var string = lastIncomeID.toString()+"/"+ loggedUserID.toString()+"/"+ amount +"/"+date+"/"+category+"/"+comment+"/";
+	$('#addIncomeFunctionMessage').removeClass("text-success");
+	$('#addIncomeFunctionMessage').addClass("text-danger");
+	$('#addIncomeFunctionMessage').html("");
 	
+	var amount = $('#incomeAmount').val();
+	if(amount == '') {$('#addIncomeFunctionMessage').html("<p class=\"h5\"><b>Proszę podaj kwotę dochodu</b></p>"); return;}
+	var date = $('#dateIncome').val();
+	if(date == '') {$('#addIncomeFunctionMessage').html("<p class=\"h5\"><b>Proszę podaj datę uzyskania dochodu</b></p>"); return;}
+	var category = $("input[type=radio][name=incomeCategory]:checked").val();
+	var comment = $('#commentIncome').val();
+	lastIncomeID++;
+	var string = lastIncomeID.toString()+"/"+ loggedUserID.toString()+"/"+ amount +"/"+date+"/"+category+"/"+comment+"/";
 	
 	IncomeInArray.id = lastIncomeID;
 	IncomeInArray.userId = loggedUserID;
@@ -368,7 +385,9 @@ function addNewIncome(){
 	var valueOfIncome = string;
 	localStorage.setItem(nameOfIncome, valueOfIncome);
 	
-	alert("Dodałeś nowy przychód!");
+	$('#addIncomeFunctionMessage').removeClass("text-danger");
+	$('#addIncomeFunctionMessage').addClass("text-success");
+	$('#addIncomeFunctionMessage').html("<p class=\"h5\"><b>Dodałeś nowy dochód do swojego archiwum!</b></p>");
 	
 	$('#incomeAmount').val("");
 	$('#dateIncome').val("");
@@ -448,3 +467,121 @@ function changeCommasToDots(string){
 	}
 	return newString;
 }
+//add income functions
+//add expence functions
+	$('#addExpenceButton').on('click',function(){
+	addNewExpence();
+});
+function addNewExpence()
+{	
+	var ExpenceInArray = {
+		id: 0,
+		userId: 0,
+		amount: "",
+		date: "",
+		payment: "",
+		source: "",
+		comment: ""
+	};
+	$('#addExpenceFunctionMessage').removeClass("text-success");
+	$('#addExpenceFunctionMessage').addClass("text-danger");
+	$('#addExpenceFunctionMessage').html("");
+	
+	var amount = $('#expenceAmount').val();
+	if(amount == '') {$('#addExpenceFunctionMessage').html("<p class=\"h5\"><b>Proszę podaj kwotę wydatku</b></p>"); return;}
+	var date = $('#dateExpence').val();
+	if(date == '') {$('#addExpenceFunctionMessage').html("<p class=\"h5\"><b>Proszę podaj datę</b></p>"); return;}
+	var wayOfPayment = $("input[type=radio][name=payment]:checked").val();
+	var category = $("input[type=radio][name=expenceCat]:checked").val();
+	var comment = $('#commentExpence').val();
+	lastExpenceID++;
+	var string = lastExpenceID.toString()+"/"+ loggedUserID.toString()+"/"+ amount +"/"+date+"/"+wayOfPayment+"/"+category+"/"+comment+"/";
+		
+	ExpenceInArray.id = lastExpenceID;
+	ExpenceInArray.userId = loggedUserID;
+	ExpenceInArray.amount = amount;
+	ExpenceInArray.date = date;
+	ExpenceInArray.payment = wayOfPayment;
+	ExpenceInArray.source = category;
+	ExpenceInArray.comment = comment;
+	expencesObj.push(ExpenceInArray);
+	
+	var nameOfExpence = "Expence" + lastExpenceID.toString();
+	var valueOfExpence = string;
+	localStorage.setItem(nameOfExpence, valueOfExpence);
+	
+	$('#addExpenceFunctionMessage').removeClass("text-danger");
+	$('#addExpenceFunctionMessage').addClass("text-success");
+	$('#addExpenceFunctionMessage').html("<p class=\"h5\"><b>Dodałeś nowy wydatek do archiwum!</b></p>");
+	
+	$('#expenceAmount').val("");
+	$('#dateExpence').val("");
+	$('#commentExpence').val("");
+	
+}
+function loadExpencesOfLoggedUser()
+{
+	for(var i=0; i<localStorage.length; i++){
+		loadExpencestoArray(i);
+	}
+
+	expencesObj.sort(function(a, b){return a.id - b.id;});
+	
+}
+function loadExpencestoArray(i)
+{
+	var nameOfValue = localStorage.key(i); 
+	if(nameOfValue.charAt(0)=='E'){	
+		var valueOfName = localStorage.getItem(nameOfValue);
+		getExpenceDataFromStringWithDashes(valueOfName);
+	}
+}
+function getExpenceDataFromStringWithDashes(valueOfName)
+{
+	var dashCounter = 0;
+	var string = "";
+	var ExpenceInArray = {
+	id: 0,
+	userId: 0,
+	amount: "",
+	date: "",
+	payment: "",
+	source: "",
+	comment: ""
+};
+	for(var i=0; i<valueOfName.length; i++)
+	{
+		if(valueOfName.charAt(i) != "/"){
+			string = string + valueOfName.substr(i,1);
+		}
+		if(valueOfName.charAt(i) == '/')
+		{
+	
+			switch(dashCounter)
+			{
+				case 0: ExpenceInArray.id = parseInt(string); 
+					if(lastExpenceID<ExpenceInArray.id)
+						lastExpenceID = ExpenceInArray.id; 
+					
+					string = ""; break;
+				case 1: ExpenceInArray.userId = parseInt(string); string = ""; 
+					if(ExpenceInArray.userId != loggedUserID) return;
+				break;
+				case 2: 
+					string = changeCommasToDots(string);
+					var expenceValue = parseFloat(string);
+					ExpenceInArray.amount = Math.round(expenceValue*100)/100; string = ""; break;
+				case 3: ExpenceInArray.date = string; string = ""; break;
+				case 4: ExpenceInArray.payment = string; string = ""; break;
+				case 5: ExpenceInArray.source = string; string = ""; break;
+				case 6: ExpenceInArray.comment = string; string = ""; break;
+			}
+			dashCounter++;
+		}
+		if (dashCounter == 7)
+		{
+			expencesObj.push(ExpenceInArray);
+		}
+	}
+}
+//add expence functions

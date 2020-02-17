@@ -26,7 +26,7 @@
 		<div class="row custom-bg py-2" id="register">
 			<div class="col-lg-8 col-md-6 col-sm-12 align-self-center" id="frontDescription">
 				
-				<h4 class="my-5"><b>Juz dziś zacznij kontrolować swoje wydatki!</b></h4>
+				<h4 class="my-5"><b>Już dziś zacznij kontrolować swoje wydatki!</b></h4>
 				
 				<p class="text-justify">Pierwszym nawykiem, który jest niezbędny do sprawnego zarządzania swoim budżetem jest umiejętne archiwizowanie swoich wydatków. Niestety może być to żmudne i uciążliwe, zwłaszcza używając tradycyjnej metody z kartka papieru i kalkulatorem.
 				Używając tej aplikacji będziesz mógł zrobić to znacznie szybciej i bez zbędnego pogrubiania swoich teczek z dokumentami. 
@@ -66,7 +66,7 @@
 				<button type="button" id="signIn" class="btn btn-primary btn-block mb-2">Zaloguj się</button>
 				<p class="mb-2">Nie masz jeszcze konta - zarejestruj się !</p>
 				<button type="button" id="signUp" class="btn btn-primary btn-block mb-2">Zarejestruj się</button> 
-				
+				<div class="col-sm-12 text-center text-danger mb-2" id="loginFunctionMessage"></div>
 			</div>
 			<div class="col-sm-12">
 				<a href="https://pl.freepik.com/darmowe-zdjecie-wektory/pieniadze" class="text-muted pull-right push-down text-sm">Grafika w tle autorstwa natanaelginting - pl.freepik.com</a>
@@ -164,6 +164,7 @@
 									<textarea type="text" id="commentIncome" class="form-control" placeholder="" columns="3"></textarea>
 								</div>
 							</div>
+							<div id="addIncomeFunctionMessage" class="text-danger col-sm-12 text-center mb-2"></div>
 							<div class="col-sm-12 mb-2">
 								<button class="btn btn-success btn-block" id="addIncomeButton"><span class="fa fa-save"></span> Dodaj nowy dochód</button>
 							</div>
@@ -178,6 +179,7 @@
 							<div class="col-sm-12 mb-2 text-center">
 								<h4>Dodawanie nowego wydatku</h4>
 							</div>
+							
 							<div class="col-sm-12 mb-2">
 								<label for="#expenceAmount">Kwota wydatku: </label>
 								<div class="input-group">
@@ -213,6 +215,7 @@
 							<div class="col-sm-12 mb-2 border border-success">
 								<form id="expenceCategory">
 									<p>Kategoria wydatku:</p>
+									
 									<div class="custom-control custom-radio" id="Jedzenie">
 										<input type="radio" class="custom-control-input" name="expenceCat" id="eating" value="Jedzenie">
 										<label class="custom-control-label" for="eating">Jedzenie</label>
@@ -232,10 +235,6 @@
 									<div class="custom-control custom-radio" id="Opiekazdrowotna">
 										<input type="radio" class="custom-control-input" name="expenceCat" id="healthCare" value="Opieka zdrowotna">
 										<label class="custom-control-label" for="healthCare">Opieka zdrowotna</label>
-									</div>
-									<div class="custom-control custom-radio" id="Ubranie">
-										<input type="radio" class="custom-control-input" name="expenceCat" id="clothing" value="Ubranie">
-										<label class="custom-control-label" for="clothing">Ubranie</label>
 									</div>
 									<div class="custom-control custom-radio" id="Ubranie">
 										<input type="radio" class="custom-control-input" name="expenceCat" id="clothing" value="Ubranie">
@@ -275,11 +274,11 @@
 									</div>
 									<div class="custom-control custom-radio" id="Spłatadługów">
 										<input type="radio" class="custom-control-input" name="expenceCat" id="debtsPayment" value="Spłatadługów">
-										<label class="custom-control-label" for="debtsPayment">Spłatadługów</label>
+										<label class="custom-control-label" for="debtsPayment">Spłata długów</label>
 									</div>
 									<div class="custom-control custom-radio" id="Nazłotąjesień,czyliemeryturę">
 										<input type="radio" class="custom-control-input" name="expenceCat" id="retirement" value="Nazłotąjesień,czyliemeryturę">
-										<label class="custom-control-label" for="retirement">Nazłotąjesień,czyliemeryturę</label>
+										<label class="custom-control-label" for="retirement">Na złotą jesień, czyli emeryturę</label>
 									</div>
 									<div class="custom-control custom-radio" id="Innewydatki">
 										<input type="radio" class="custom-control-input" name="expenceCat" id="otherExpences" value="Innewydatki">
@@ -293,6 +292,7 @@
 									<textarea type="text" id="commentExpence" class="form-control" placeholder="" columns="3"></textarea>
 								</div>
 							</div>
+							<div id="addExpenceFunctionMessage" class="text-danger col-sm-12 text-center mb-2"></div>
 							<div class="col-sm-12 mb-2">
 								<button class="btn btn-success btn-block" id="addExpenceButton"><span class="fa fa-save"></span> Dodaj nowy wydatek</button>
 							</div>
