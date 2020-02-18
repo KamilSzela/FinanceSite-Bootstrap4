@@ -498,11 +498,11 @@ function addNewExpence()
 	var category = $("input[type=radio][name=expenceCat]:checked").val();
 	var comment = $('#commentExpence').val();
 	lastExpenceID++;
-	var string = lastExpenceID.toString()+"/"+ loggedUserID.toString()+"/"+ amount +"/"+date+"/"+wayOfPayment+"/"+category+"/"+comment+"/";
+	var string = lastExpenceID.toString()+"/"+ loggedUserID.toString()+"/"+ changeCommasToDots(amount) +"/"+date+"/"+wayOfPayment+"/"+category+"/"+comment+"/";
 		
-	ExpenceInArray.id = lastExpenceID;
-	ExpenceInArray.userId = loggedUserID;
-	ExpenceInArray.amount = amount;
+	ExpenceInArray.id = parseInt(lastExpenceID);
+	ExpenceInArray.userId = parseInt(loggedUserID);
+	ExpenceInArray.amount = parseFloat(changeCommasToDots(amount));
 	ExpenceInArray.date = date;
 	ExpenceInArray.payment = wayOfPayment;
 	ExpenceInArray.source = category;
@@ -597,13 +597,11 @@ function prepareSummaryBoard() {
 	sumOfIncomes = 0;
 	sumOfExpences = 0;
 	$('#expenceTable').html("");
-	//$('#incomeTable').html("");
+	$('#incomeTable').html("");
 	$('#chartExpencesContainer').html("");
 	$('#chartExpencesContainer').css('height', '0px');
-	//$('#chartIncomesContainer').html("");
-	//$('#chartIncomesContainer').css('height', '0px');
-	$('.sumUpDiv').html("");
-	$('.sumUpDiv').css({'height': '0px'});
+	$('#showEvaluation').html("");
+	$('#showEvaluation').css({'background': 'none'});
 	$('#summaryContainer').css({
 				'height': '500px'
 				});
@@ -619,17 +617,14 @@ function prepareSummaryBoard() {
 $('#generateSummaryButton').on('click', function(){
 	var choice = $('#dateSpan').val();
 	createTableOfExpences(choice);
-	//createTableOfIncomes(choice);
-	//adjustSummaryButtonPosition();
-	//evaluateFinanceManagement();
+	createTableOfIncomes(choice);
+	evaluateFinanceManagement();
 });
 function createTableOfExpences(timeSpan){
 		$('#expenceTable').html("");
 		let table = document.getElementById("expenceTable");
 		if(expencesObj.length == 0) {
-		$('#expenceTable').html("<div class=\"row\">Brak wydatków w rozpatrywanym okresie</div>");
-		//$('#expenceTable').css({'margin-left':'auto', 'margin-right': 'auto'});
-		$('#chartExpencesContainer').css('heigth', '0px');
+		$('#expenceTable').html("<tbody><tr>Brak wydatków w rozpatrywanym okresie</tr></tbody>");
 		return;
 	}
 		let data = Object.keys(expencesObj[0]);
@@ -647,9 +642,7 @@ function createTableOfExpences(timeSpan){
 	expencesFromTimeSpan = loadInputsOfTimeSpan(timeSpan, expencesFromTimeSpan, expencesObj);
 	expencesSorted = sortExpencesByCathegory(expencesSorted, expencesFromTimeSpan);
 	if(expencesSorted.length == 0) {
-		$('#expenceTable').html("<div class=\"row\">Brak wydatków w rozpatrywanym okresie</div>");
-		$('#expenceTable').css({'margin-left':'auto', 'margin-right': 'auto'});
-		$('#chartExpencesContainer').css('heigth', '0px');
+		$('#expenceTable').html("<tbody><tr><td class=\"text-center\">Brak wydatków w rozpatrywanym okresie</td></tr></tbody>");
 		return;
 	}
 	var cathegory = expencesSorted[0].source;
@@ -675,10 +668,18 @@ function createTableOfExpences(timeSpan){
         let row = table.insertRow();
         for (var key in element) {
 			if(key == "userId") continue;
-			if(key == "amount") {sumOfCathegoryAmount += parseFloat(element.amount);};
-          let cell = row.insertCell();
-          let text = document.createTextNode(element[key]);
-          cell.appendChild(text);
+			if(key == "id") continue;
+			if(key == "amount") {sumOfCathegoryAmount += parseFloat(element.amount);
+				stringZWalutą = element.amount.toString()+" PLN";
+				let cell = row.insertCell();
+				let text = document.createTextNode(stringZWalutą);
+				cell.appendChild(text);
+			}
+			else{
+			  let cell = row.insertCell();
+			  let text = document.createTextNode(element[key]);
+			  cell.appendChild(text);
+			}
         }
 		if(element == expencesSorted[lastElement]){
 			
@@ -715,6 +716,9 @@ function createTableOfExpences(timeSpan){
 		});
 		chart.render();
 		$('#chartExpencesContainer').css('height', '400px');
+		$('#summaryContainer').css({
+				'height': 'auto'
+				});
 		generateTableHead(table, data);
 		
     }
@@ -723,6 +727,7 @@ function createTableOfExpences(timeSpan){
 		let row = tHead.insertRow();
 		for(let key of data){
 			if(key == "userId") continue;
+			else if(key == "id") continue;
 			let th = document.createElement("th");
 			let text = document.createTextNode(key);
 			th.appendChild(text);
@@ -852,10 +857,95 @@ function addSummaryRow(table, cathegory, sumOfCathegoryAmount){
 		}
 		return expencesSorted;
 	}
-	function checkIfCathegoryIsAlreadyIncluded(cathegory,inputsSorted){
+function checkIfCathegoryIsAlreadyIncluded(cathegory,inputsSorted){
 		for (let i=0; i<inputsSorted.length; i++){
 			if (cathegory == inputsSorted[i].source || cathegory == inputsSorted[i].cathegory) return true;
 		}
 		return false;
 	}
+function createTableOfIncomes(timeSpan){
+	$('#incomeTable').html("");
+	let table = document.getElementById("incomeTable");
+	if(incomesObj.length == 0) {
+		$('#incomeTable').html("<tbody><tr><td class=\"text-center\">Brak dochodów w rozpatrywanym okresie</td></tr></tbody>");
+		return;
+	}
+	let data = Object.keys(incomesObj[0]);
+	generateIncomesTable(table, data, timeSpan);
+}
+function generateIncomesTable(table, data, timeSpan) {
+     
+		var incomesSorted = [];
+		var incomesFromTimeSpan = [];
+		var dataPoints = [];
+		var sumOfCathegoryAmount = 0;
+		incomesFromTimeSpan = loadInputsOfTimeSpan(timeSpan, incomesFromTimeSpan, incomesObj);
+		incomesSorted = sortIncomesByCathegory(incomesSorted, incomesFromTimeSpan);
+	
+		if(incomesSorted.length == 0) {
+			$('#incomeTable').html("<tbody><tr><td class=\"text-center\">Brak dochodów w rozpatrywanym okresie</td></tr></tbody>");
+			return;
+		}
+		var cathegory = incomesSorted[0].cathegory;
+		let lastElement = incomesSorted.length - 1;
+		for (let element of incomesSorted) {
+			let temporary = element.cathegory;
+			if(cathegory != temporary){	
+				addSummaryRow(table, cathegory, sumOfCathegoryAmount);
+				cathegory = temporary;
+				sumOfIncomes += sumOfCathegoryAmount;
+				sumOfCathegoryAmount = 0;
+			}
+			let row = table.insertRow();
+			for (var key in element) {
+				if(key == "userId") continue;
+				if(key == "id") continue;
+				if(key == "amount") {sumOfCathegoryAmount+= parseFloat(element.amount);};
+			  let cell = row.insertCell();
+			  let text = document.createTextNode(element[key]);
+			  cell.appendChild(text);
+			}
+			 if(element == incomesSorted[lastElement]){
+				addSummaryRow(table, cathegory, sumOfCathegoryAmount);
+				cathegory = temporary;
+				sumOfIncomes += sumOfCathegoryAmount;
+				sumOfCathegoryAmount = 0;
+				}
+		}	
+		generateTableHead(table, data);			    
+    }
+function sortIncomesByCathegory(incomesSorted, incomesFromTimeSpan){
+		var cathegory="";
+		for(let i=0; i<incomesFromTimeSpan.length; i++){
+			cathegory = incomesFromTimeSpan[i].cathegory;
+			if(checkIfCathegoryIsAlreadyIncluded(cathegory,incomesSorted)) continue;
+			var temporary =[];
+			for(let k=0; k<incomesFromTimeSpan.length; k++){
+				if(cathegory==incomesFromTimeSpan[k].cathegory){
+					temporary.push(incomesFromTimeSpan[k]);
+				}
+			}
+			temporary.sort(function(a,b){
+				return new Date(b.date) - new Date(a.date);
+				});
+			Array.prototype.push.apply(incomesSorted,temporary);
+			temporary.splice(0,temporary.length);
+		}
+		return incomesSorted;	
+	}
+function evaluateFinanceManagement(){
+	var sumOfMoney = sumOfIncomes - sumOfExpences;
+	//$('.sumUpDiv').css({'height': '30px'});
+	var sumDivContent = $('#showEvaluation').html();
+	if(sumOfMoney >= 0){
+		sumDivContent = "<p>Gratulacje! Świetnie sobie radzisz z zarządzaniem swoimi pieniędzmi</p><p>Twój bilans: "+sumOfIncomes.toString()+"-"+sumOfExpences.toString()+"</p>";
+		background = 'radial-gradient(#126110 10%,#2b8c29 50%,#529e51 80%)';
+	}
+	else{
+		sumDivContent = "Niestety! Suma twoich wydatków przekroczyła sumę przychodów";
+		background = 'radial-gradient(#941e16 10%,#a8342c 50%,#bf524b 80%)';
+	}
+	$('#showEvaluation').html(sumDivContent);
+	$('#showEvaluation').css({'background': background});
+}
 //summary functions
