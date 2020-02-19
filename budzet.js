@@ -597,11 +597,14 @@ function prepareSummaryBoard() {
 	sumOfIncomes = 0;
 	sumOfExpences = 0;
 	$('#expenceTable').html("");
+	$('#expenceTableHeader').html("");
 	$('#incomeTable').html("");
+	$('#incomeTableHeader').html("");
 	$('#chartExpencesContainer').html("");
 	$('#chartExpencesContainer').css('height', '0px');
 	$('#showEvaluation').html("");
 	$('#showEvaluation').css({'background': 'none'});
+	$('#dateMessageDiv').html("");
 	$('#summaryContainer').css({
 				'height': '500px'
 				});
@@ -719,8 +722,9 @@ function createTableOfExpences(timeSpan){
 		$('#summaryContainer').css({
 				'height': 'auto'
 				});
+		$('#expenceTableHeader').html("Tabela twoich wydatków:");
 		generateTableHead(table, data);
-		
+		generateSumOfExpencesDiv(table);
     }
 	function generateTableHead(table, data){
 		let tHead = table.createTHead();
@@ -742,9 +746,18 @@ function addSummaryRow(table, cathegory, sumOfCathegoryAmount){
 		let text = document.createTextNode(cathegory);
 		cellCathegory.appendChild(text);
 		let cellAmount = rowCathegory.insertCell();
-		let textSum = document.createTextNode(sumOfCathegoryAmount);
+		let textSum = document.createTextNode(sumOfCathegoryAmount + " PLN");
 		cellAmount.appendChild(textSum);
 		
+	}
+	function generateSumOfExpencesDiv(table){
+		let sumRow = table.insertRow();
+		let cellCathegory = sumRow.insertCell();
+		let text = document.createTextNode("Suma twoich wydatków:");
+		cellCathegory.appendChild(text);
+		let cellAmount = sumRow.insertCell();
+		let textSum = document.createTextNode(Math.round(sumOfExpences*100)/100 + " PLN");
+		cellAmount.appendChild(textSum);
 	}
 	function loadInputsOfTimeSpan(timeSpan, inputsFromTimeSpan, arrayWithInputs){
 		
@@ -777,8 +790,9 @@ function addSummaryRow(table, cathegory, sumOfCathegoryAmount){
 		else{
 			var firstDate = $('#beginnigTimeSpan').val();
 			var secondDate = $('#endingTimeSpan').val();
+			$('#dateMessageDiv').html("");
 			if(checkIfDateOneIsOlder(secondDate, firstDate)){
-				alert("Podana data końca okresu jest starsza niz data początku okresu. Podaj prawidłową datę");
+				$('#dateMessageDiv').html("<p>Podana data końca okresu jest starsza niz data początku okresu. Podaj prawidłową datę</p>");
 				return;
 			}
 			for(var i=0; i<arrayWithInputs.length; i++){
@@ -912,7 +926,9 @@ function generateIncomesTable(table, data, timeSpan) {
 				sumOfCathegoryAmount = 0;
 				}
 		}	
-		generateTableHead(table, data);			    
+		$('#incomeTableHeader').html("Tabela twoich dochodów:");
+		generateTableHead(table, data);
+		
     }
 function sortIncomesByCathegory(incomesSorted, incomesFromTimeSpan){
 		var cathegory="";
@@ -934,15 +950,16 @@ function sortIncomesByCathegory(incomesSorted, incomesFromTimeSpan){
 		return incomesSorted;	
 	}
 function evaluateFinanceManagement(){
-	var sumOfMoney = sumOfIncomes - sumOfExpences;
-	//$('.sumUpDiv').css({'height': '30px'});
+	sumOfIncomes = Math.round(sumOfIncomes*100)/100;
+	sumOfExpences = Math.round(sumOfExpences*100)/100;
+	var sumOfMoney = Math.round((sumOfIncomes - sumOfExpences)*100)/100;
 	var sumDivContent = $('#showEvaluation').html();
 	if(sumOfMoney >= 0){
-		sumDivContent = "<p>Gratulacje! Świetnie sobie radzisz z zarządzaniem swoimi pieniędzmi</p><p>Twój bilans: "+sumOfIncomes.toString()+"-"+sumOfExpences.toString()+"</p>";
+		sumDivContent = "<p>Gratulacje! Świetnie sobie radzisz z zarządzaniem swoimi pieniędzmi</p><p>Twój bilans: "+sumOfIncomes.toString()+"-"+sumOfExpences.toString()+"="+sumOfMoney.toString()+"</p>";
 		background = 'radial-gradient(#126110 10%,#2b8c29 50%,#529e51 80%)';
 	}
 	else{
-		sumDivContent = "Niestety! Suma twoich wydatków przekroczyła sumę przychodów";
+		sumDivContent = "<p>Niestety! Suma twoich wydatków przekroczyła sumę przychodów</p><p>Twój bilans: "+sumOfIncomes.toString()+"-"+sumOfExpences.toString()+"="+sumOfMoney.toString()+"</p>";
 		background = 'radial-gradient(#941e16 10%,#a8342c 50%,#bf524b 80%)';
 	}
 	$('#showEvaluation').html(sumDivContent);
