@@ -673,7 +673,7 @@ function createTableOfExpences(timeSpan){
 			if(key == "userId") continue;
 			if(key == "id") continue;
 			if(key == "amount") {sumOfCathegoryAmount += parseFloat(element.amount);
-				stringZWalutą = element.amount.toString()+" PLN";
+				let stringZWalutą = element.amount.toString()+" PLN";
 				let cell = row.insertCell();
 				let text = document.createTextNode(stringZWalutą);
 				cell.appendChild(text);
@@ -729,11 +729,17 @@ function createTableOfExpences(timeSpan){
 	function generateTableHead(table, data){
 		let tHead = table.createTHead();
 		let row = tHead.insertRow();
+		let headerName = "";
 		for(let key of data){
 			if(key == "userId") continue;
 			else if(key == "id") continue;
+			else if(key == "amount") headerName="Kwota";
+			else if(key == "date") headerName="Data";
+			else if(key == "payment") headerName="Sposób płatności";
+			else if(key == "source" || key == "cathegory") headerName="Kategoria";
+			else if(key == "comment") headerName="Komentarz";
 			let th = document.createElement("th");
-			let text = document.createTextNode(key);
+			let text = document.createTextNode(headerName);
 			th.appendChild(text);
 			row.appendChild(th);
 	}
@@ -742,19 +748,30 @@ function createTableOfExpences(timeSpan){
 }
 function addSummaryRow(table, cathegory, sumOfCathegoryAmount){
 		let rowCathegory = table.insertRow();
-		let cellCathegory = rowCathegory.insertCell();
-		let text = document.createTextNode(cathegory);
-		cellCathegory.appendChild(text);
+		
 		let cellAmount = rowCathegory.insertCell();
 		let textSum = document.createTextNode(sumOfCathegoryAmount + " PLN");
 		cellAmount.appendChild(textSum);
-		
+		for(let t=0; t<3; t++){
+			let pauseCell = rowCathegory.insertCell();
+			let pauseText = document.createTextNode(" - ");
+			pauseCell.appendChild(pauseText);
+			if($(table).attr("id")=="incomeTable"&& t == 1) break;
+		}
+		let cellCathegory = rowCathegory.insertCell();
+		let text = document.createTextNode("Suma w kategorii: " + cathegory);
+		cellCathegory.appendChild(text);
 	}
 	function generateSumOfExpencesDiv(table){
 		let sumRow = table.insertRow();
 		let cellCathegory = sumRow.insertCell();
 		let text = document.createTextNode("Suma twoich wydatków:");
 		cellCathegory.appendChild(text);
+		for(let t=0; t<3; t++){
+			let pauseCell = sumRow.insertCell();
+			let pauseText = document.createTextNode(" - ");
+			pauseCell.appendChild(pauseText);
+		}
 		let cellAmount = sumRow.insertCell();
 		let textSum = document.createTextNode(Math.round(sumOfExpences*100)/100 + " PLN");
 		cellAmount.appendChild(textSum);
@@ -914,10 +931,16 @@ function generateIncomesTable(table, data, timeSpan) {
 			for (var key in element) {
 				if(key == "userId") continue;
 				if(key == "id") continue;
-				if(key == "amount") {sumOfCathegoryAmount+= parseFloat(element.amount);};
-			  let cell = row.insertCell();
-			  let text = document.createTextNode(element[key]);
-			  cell.appendChild(text);
+				if(key == "amount") {sumOfCathegoryAmount+= parseFloat(element.amount);
+					let cell = row.insertCell();
+					let text = document.createTextNode(element[key] + " PLN");
+				    cell.appendChild(text);
+				}
+				else{
+				  let cell = row.insertCell();
+				  let text = document.createTextNode(element[key]);
+				  cell.appendChild(text);
+				}
 			}
 			 if(element == incomesSorted[lastElement]){
 				addSummaryRow(table, cathegory, sumOfCathegoryAmount);
@@ -928,7 +951,7 @@ function generateIncomesTable(table, data, timeSpan) {
 		}	
 		$('#incomeTableHeader').html("Tabela twoich dochodów:");
 		generateTableHead(table, data);
-		
+		generateSumOfIncomesDiv(table);
     }
 function sortIncomesByCathegory(incomesSorted, incomesFromTimeSpan){
 		var cathegory="";
@@ -949,17 +972,31 @@ function sortIncomesByCathegory(incomesSorted, incomesFromTimeSpan){
 		}
 		return incomesSorted;	
 	}
+	function generateSumOfIncomesDiv(table){
+		let sumRow = table.insertRow();
+		let cellCathegory = sumRow.insertCell();
+		let text = document.createTextNode("Suma twoich dochodów:");
+		cellCathegory.appendChild(text);
+		for(let t=0; t<2; t++){
+			let pauseCell = sumRow.insertCell();
+			let pauseText = document.createTextNode(" - ");
+			pauseCell.appendChild(pauseText);
+		}
+		let cellAmount = sumRow.insertCell();
+		let textSum = document.createTextNode(Math.round(sumOfIncomes*100)/100 + " PLN");
+		cellAmount.appendChild(textSum);
+	}
 function evaluateFinanceManagement(){
 	sumOfIncomes = Math.round(sumOfIncomes*100)/100;
 	sumOfExpences = Math.round(sumOfExpences*100)/100;
 	var sumOfMoney = Math.round((sumOfIncomes - sumOfExpences)*100)/100;
 	var sumDivContent = $('#showEvaluation').html();
 	if(sumOfMoney >= 0){
-		sumDivContent = "<p>Gratulacje! Świetnie sobie radzisz z zarządzaniem swoimi pieniędzmi</p><p>Twój bilans: "+sumOfIncomes.toString()+"-"+sumOfExpences.toString()+"="+sumOfMoney.toString()+"</p>";
+		sumDivContent = "<p>Gratulacje! Świetnie sobie radzisz z zarządzaniem swoimi pieniędzmi</p><p>Twój bilans: "+sumOfIncomes.toString()+" PLN - "+sumOfExpences.toString()+" PLN = "+sumOfMoney.toString()+" PLN</p>";
 		background = 'radial-gradient(#126110 10%,#2b8c29 50%,#529e51 80%)';
 	}
 	else{
-		sumDivContent = "<p>Niestety! Suma twoich wydatków przekroczyła sumę przychodów</p><p>Twój bilans: "+sumOfIncomes.toString()+"-"+sumOfExpences.toString()+"="+sumOfMoney.toString()+"</p>";
+		sumDivContent = "<p>Niestety! Suma twoich wydatków przekroczyła sumę dochodów</p><p>Twój bilans: "+sumOfIncomes.toString()+" PLN - "+sumOfExpences.toString()+" PLN = "+sumOfMoney.toString()+" PLN</p>";
 		background = 'radial-gradient(#941e16 10%,#a8342c 50%,#bf524b 80%)';
 	}
 	$('#showEvaluation').html(sumDivContent);

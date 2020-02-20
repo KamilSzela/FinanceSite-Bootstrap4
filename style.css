@@ -32,5 +32,9 @@ body
 	background:none !important;
 	border:none;
 }
+.table-dark td, .table-dark th{
+			border-color: #9da1a6;
+			width:20%;
+		}
 
 
