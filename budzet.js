@@ -12,8 +12,7 @@ var sumOfExpences = 0;
 $(document).ready(function(){	
 	loadUsersFromLocalStorage();
 	//resizeScreen();
-	adjustNavBar();
-	
+	adjustNavBar();	
 });
 $( window ).resize(function() {
   //resizeScreen();
@@ -207,8 +206,8 @@ $('#setup').on('click',function(){
 });
 $('#log-out').on('click', function(){
 	loggedUserID = 0;
-	//var endOfArrayExpences = expencesObj.length;
-	//expencesObj.splice(0,endOfArrayExpences);
+	var endOfArrayExpences = expencesObj.length;
+	expencesObj.splice(0,endOfArrayExpences);
 	var endOfArrayIncomes = incomesObj.length;
 	incomesObj.splice(0,endOfArrayIncomes);
 	location.reload();
@@ -374,11 +373,11 @@ function addNewIncome(){
 	var category = $("input[type=radio][name=incomeCategory]:checked").val();
 	var comment = $('#commentIncome').val();
 	lastIncomeID++;
-	var string = lastIncomeID.toString()+"/"+ loggedUserID.toString()+"/"+ amount +"/"+date+"/"+category+"/"+comment+"/";
+	var string = lastIncomeID.toString()+"/"+ loggedUserID.toString()+"/"+ changeCommasToDots(amount) +"/"+date+"/"+category+"/"+comment+"/";
 	
 	IncomeInArray.id = lastIncomeID;
 	IncomeInArray.userId = loggedUserID;
-	IncomeInArray.amount = amount;
+	IncomeInArray.amount = parseFloat(changeCommasToDots(amount));
 	IncomeInArray.date = date;
 	IncomeInArray.cathegory = category;
 	IncomeInArray.comment = comment;
@@ -1003,3 +1002,242 @@ function evaluateFinanceManagement(){
 	$('#showEvaluation').css({'background': background});
 }
 //summary functions
+// setup functions
+$('#listLoginChange').on('click', function(){
+	
+	//$('.setupContainer').css({'height': '600px'});
+	//$('.setupFunction').css({'height': '542px'});
+	//$('#expenceMenuSetup').css({'height': '500px'});
+	$('#loginSetup').removeClass('d-none');
+	$('#loginSetup').addClass('d-flex');
+	
+	$('#expenceMenuSetup').removeClass('d-flex');
+	$('#expenceMenuSetup').addClass('d-none');
+	
+	$('#incomeMenuSetup').removeClass('d-flex');
+	$('#incomeMenuSetup').addClass('d-none');
+	
+	$('#lastInputsMenuSetup').removeClass('d-flex');
+	$('#lastInputsMenuSetup').addClass('d-none');
+	
+	$("#functionMessage-loginSetup").html("");
+});
+$('#listExpenceChange').on('click', function(){
+	$('#loginSetup').removeClass('d-flex');
+	$('#loginSetup').addClass('d-none');
+	
+	$('#expenceMenuSetup').removeClass('d-none');
+	$('#expenceMenuSetup').addClass('d-flex');
+	
+	$('#incomeMenuSetup').removeClass('d-flex');
+	$('#incomeMenuSetup').addClass('d-none');
+	
+	$('#lastInputsMenuSetup').removeClass('d-flex');
+	$('#lastInputsMenuSetup').addClass('d-none');
+	
+	$("#functionMessage-loginSetup").html("");
+	//loadPaymentWaysToDiv();
+	//loadCathegoriesToDiv();
+	//adjustSetupHeight();
+});
+$('#listIncomeChange').on('click', function(){
+	$('#loginSetup').removeClass('d-flex');
+	$('#loginSetup').addClass('d-none');
+	
+	$('#expenceMenuSetup').removeClass('d-flex');
+	$('#expenceMenuSetup').addClass('d-none');
+	
+	$('#incomeMenuSetup').removeClass('d-none');
+	$('#incomeMenuSetup').addClass('d-flex');
+	
+	$('#lastInputsMenuSetup').removeClass('d-flex');
+	$('#lastInputsMenuSetup').addClass('d-none');
+	
+	$("#functionMessage-loginSetup").html("");
+	//$('.setupContainer').css({'height': '600px'});
+	//$('.setupFunction').css({'height': '542px'});
+	//$('#expenceMenuSetup').css({'height': '500px'});
+
+	//loadIncomeCathegoriesToDiv();
+});
+$('#listLastInputsDelete').on('click', function(){
+	$('#loginSetup').removeClass('d-flex');
+	$('#loginSetup').addClass('d-none');
+	
+	$('#expenceMenuSetup').removeClass('d-flex');
+	$('#expenceMenuSetup').addClass('d-none');
+	
+	$('#incomeMenuSetup').removeClass('d-flex');
+	$('#incomeMenuSetup').addClass('d-none');
+	
+	$('#lastInputsMenuSetup').removeClass('d-none');
+	$('#lastInputsMenuSetup').addClass('d-flex');
+	
+	$("#functionMessage-loginSetup").html("");
+	//$('.setupContainer').css({'height': '600px'});
+	//$('#lastInputsMenuSetup').css({'height': '485px'});
+	//loadIncomesFromArrayToDiv();
+	//loadExpencesFromArrayToDiv();
+	//adjustButtonPositionToDeletingLastInputs();
+});
+$('#changeLoginButton').on('click', function(){
+	changeLoginOfLoggedUser();
+});
+$('#changePasswordButton').on('click', function(){
+	changePasswordOfLoggedUser();
+});
+$('#changeEmailButton').on('click', function(){
+	changeEmailOfLoggedUser();
+});
+function changeLoginOfLoggedUser(){
+	if($('#loginChange').val()=="") {
+		$("#functionMessage-loginSetup").html("<b>Nie podałeś loginu do zmiany! </b>"); 
+		$("#functionMessage-loginSetup").removeClass('text-primary');
+		$("#functionMessage-loginSetup").addClass('text-danger');
+		return;
+	}
+	for(var i=0; i<localStorage.length; i++){
+		var nameOfValue = localStorage.key(i); 	
+		if(nameOfValue.charAt(0)=='U'){
+			var lastChar = nameOfValue.length - 1;
+			if(nameOfValue.charAt(lastChar)==loggedUserID){
+				var valueOfName = localStorage.getItem(nameOfValue);
+				changeLoginInLocalStorage(valueOfName, nameOfValue);
+				return;
+			}
+		}
+	}
+}
+
+function changeLoginInLocalStorage(valueOfName,nameOfValue){
+	var dashCounter = 0;
+	var string = "";
+	var stringAfterChange = "";
+	for(var i=0; i<valueOfName.length; i++){
+		if(valueOfName.charAt(i) != '/'){
+			string = string + valueOfName.substr(i,1);
+		}
+		if(valueOfName.charAt(i) == '/')
+		{
+	
+				if(dashCounter == 1){
+				string = ""; 
+				stringAfterChange = stringAfterChange + $('#loginChange').val() +'/';
+				}
+				else{ 
+				stringAfterChange = stringAfterChange + string +'/';
+				string = ""; 
+				}
+			
+			dashCounter++;
+		}
+		if(dashCounter==4){
+			localStorage.setItem(nameOfValue,stringAfterChange);
+			$("#functionMessage-loginSetup").html("<b>Login został zmieniony!</b>");
+			$("#functionMessage-loginSetup").removeClass('text-danger');
+			$("#functionMessage-loginSetup").addClass('text-primary');
+			$('#loginChange').val("");
+		}
+	}
+}
+function changePasswordOfLoggedUser(){
+	if($('#passwordChange').val()=="") {
+			$("#functionMessage-loginSetup").html("<b>Nie podałeś hasła do zmiany</b>"); 
+			$("#functionMessage-loginSetup").removeClass('text-primary');
+			$("#functionMessage-loginSetup").addClass('text-danger'); 
+			return;
+		}
+	for(var i=0; i<localStorage.length; i++){
+		var nameOfValue = localStorage.key(i); 	
+		if(nameOfValue.charAt(0)=='U'){
+			var lastChar = nameOfValue.length - 1;
+			if(nameOfValue.charAt(lastChar)==loggedUserID){
+				var valueOfName = localStorage.getItem(nameOfValue);
+				changePasswordInLocalStorage(valueOfName, nameOfValue);
+				return;
+			}
+		}
+	}
+}
+function changePasswordInLocalStorage(valueOfName,nameOfValue){
+	var dashCounter = 0;
+	var string = "";
+	var stringAfterChange = "";
+	for(var i=0; i<valueOfName.length; i++){
+		if(valueOfName.charAt(i) != '/'){
+			string = string + valueOfName.substr(i,1);
+		}
+		if(valueOfName.charAt(i) == '/')
+		{
+	
+				if(dashCounter == 2){
+				string = ""; 
+				stringAfterChange = stringAfterChange + $('#passwordChange').val() +'/';
+				}
+				else{ 
+				stringAfterChange = stringAfterChange + string +'/';
+				string = ""; 
+				}
+			
+			dashCounter++;
+		}
+		if(dashCounter==4){
+			localStorage.setItem(nameOfValue,stringAfterChange);
+			$("#functionMessage-loginSetup").html("<b>Hasło zostało zmienione!</b>");
+			$("#functionMessage-loginSetup").removeClass('text-danger');
+			$("#functionMessage-loginSetup").addClass('text-primary');
+			$('#passwordChange').val("");
+		}
+	}
+}
+function changeEmailOfLoggedUser(){
+	if($('#emailChange').val()=="") {
+			$("#functionMessage-loginSetup").html("<b>Nie podałeś konta email do zmiany</b>"); 
+			$("#functionMessage-loginSetup").removeClass('text-primary');
+			$("#functionMessage-loginSetup").addClass('text-danger');  
+			return;
+		}
+	for(var i=0; i<localStorage.length; i++){
+		var nameOfValue = localStorage.key(i); 	
+		if(nameOfValue.charAt(0)=='U'){
+			var lastChar = nameOfValue.length - 1;
+			if(nameOfValue.charAt(lastChar)==loggedUserID){
+				var valueOfName = localStorage.getItem(nameOfValue);
+				changeEmailInLocalStorage(valueOfName, nameOfValue);
+				return;
+			}
+		}
+	}
+}
+function changeEmailInLocalStorage(valueOfName,nameOfValue){
+	var dashCounter = 0;
+	var string = "";
+	var stringAfterChange = "";
+	for(var i=0; i<valueOfName.length; i++){
+		if(valueOfName.charAt(i) != '/'){
+			string = string + valueOfName.substr(i,1);
+		}
+		if(valueOfName.charAt(i) == '/')
+		{
+	
+				if(dashCounter == 3){
+				string = ""; 
+				stringAfterChange = stringAfterChange + $('#emailChange').val() +'/';
+				}
+				else{ 
+				stringAfterChange = stringAfterChange + string +'/';
+				string = ""; 
+				}
+			
+			dashCounter++;
+		}
+		if(dashCounter==4){
+			localStorage.setItem(nameOfValue,stringAfterChange);
+			$("#functionMessage-loginSetup").html("<b>Twój adres emial został zmieniony!</b>");
+			$("#functionMessage-loginSetup").removeClass('text-danger');
+			$("#functionMessage-loginSetup").addClass('text-success');
+			$('#emailChange').val("");
+		}
+	}
+}
+//setup functions/

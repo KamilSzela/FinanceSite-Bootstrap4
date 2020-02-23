@@ -360,7 +360,61 @@
 					</div>
 				</div>
 				<div class="row d-none" id="setupContainer">
-					<p>Zawartość diva #setupContainer</p>
+					<div class="col-sm-12">
+						<div class="row justify-content-center my-3">
+							<div class="col-sm-12 my-3">
+								<h4 class="text-center"><b>Strona umożliwiająca dostosowanie ustawień aplikacji</b></h4>
+							</div>
+							<div class="col-md-4 col-sm-12" id="functionList">
+								<div class="list-group">
+									<button class="list-group-item list-group-item-action btn btn-outline-secondary" type="button" id="listLoginChange">Zmiana danych logowania</button>
+									<button class="list-group-item list-group-item-action btn btn-outline-secondary" type="button" id="listExpenceChange">Zmiana menu wydatków</button>
+									<button class="list-group-item list-group-item-action btn btn-outline-secondary" type="button" id="listIncomeChange">Zmiana menu dochodów</button>
+									<button class="list-group-item list-group-item-action btn btn-outline-secondary" type="button" id="listLastInputsDelete">Usuwanie wybranych wpisów</button>
+								</div>
+							</div>
+							<div class="col-md-6 col-sm-12" id="setupFunction">
+								<div class="row">
+									<div class="col-sm-12 d-none" id="loginSetup">
+										<div class="row justify-content-center">
+											<div class="col-sm-12">
+												<label for="loginChange" class="my-2">Zmiana loginu użytkownika: </label>
+												<div class="input-group">
+													<input type="text" class="form-control mr-3" id="loginChange">
+													<button class="btn btn-secondary" id="changeLoginButton"><span class="fa fa-save"></span> Zmień login</button>
+												</div>
+											</div>												
+											<div class="col-sm-12">
+												<label for="passwordChange" class="my-2">Zmiana hasła użytkownika: </label>
+												<div class="input-group">
+													<input type="text" id="passwordChange" class="form-control mr-3">
+													<button class="btn btn-secondary" id="changePasswordButton"><span class="fa fa-save"></span> Zmień hasło</button>
+												</div>
+											</div>											
+											<div class="col-sm-12">
+												<label for="emailChange" class="my-2">Zmiana emailu użytkownika: </label>
+												<div class="input-group">
+													<input type="text" id="emailChange" class="form-control mr-3">
+													<button class="btn btn-secondary" id="changeEmailButton"><span class="fa fa-save"></span> Zmień email</button>
+												</div>
+											</div>
+											<div class="col-sm-12 text-primary align-items-center text-center" id="functionMessage-loginSetup"></div>
+										</div>
+										
+									</div>
+									<div class="col-sm-12 d-none" id="expenceMenuSetup">
+										Zmiana menu wydatków
+									</div>
+									<div class="col-sm-12 d-none" id="incomeMenuSetup">
+										Zmiana menu dochodów
+									</div>
+									<div class="col-sm-12 d-none" id="lastInputsMenuSetup">
+										Usuwanie wybranych wpisów
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
