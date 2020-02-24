@@ -324,6 +324,9 @@ function showContent(id){
 		
 		$('#setupContainer').removeClass('d-none');
 		$('#setupContainer').addClass('d-flex');
+		let windowHeight = $(window).height() - 70;
+		let stringHeight = windowHeight.toString() +"px";
+		$('#setupContainer').css({'height': stringHeight});
 		$('#setup').addClass('active');
 		
 		$('#summaryContainer').removeClass('d-flex');
@@ -333,16 +336,16 @@ function showContent(id){
 }
 // visibility functions
 /*function resizeScreen(){
-	var screenHeight = screen.height;
+	var screenHeight = $(window).height();
 	var registerHeight = parseInt(screenHeight) - 150;
 	
 	 $('#register').css('min-height', registerHeight);
 	 $('#content').css('min-height', registerHeight);
 }*/
 function adjustNavBar(){
-	var screenWidth = screen.width;
+	var screenWidth = $(window).width();
 	
-	if(parseInt(screenWidth)< 992){
+	if(parseInt(screenWidth)< 990){
 		$('#navList li').removeClass('w-20');
 	}
 	else{
@@ -721,7 +724,7 @@ function createTableOfExpences(timeSpan){
 		$('#summaryContainer').css({
 				'height': 'auto'
 				});
-		$('#expenceTableHeader').html("Tabela twoich wydatków:");
+		$('#expenceTableHeader').html("<b>Tabela twoich wydatków:</b>");
 		generateTableHead(table, data);
 		generateSumOfExpencesDiv(table);
     }
@@ -948,7 +951,10 @@ function generateIncomesTable(table, data, timeSpan) {
 				sumOfCathegoryAmount = 0;
 				}
 		}	
-		$('#incomeTableHeader').html("Tabela twoich dochodów:");
+		$('#summaryContainer').css({
+				'height': 'auto'
+				});
+		$('#incomeTableHeader').html("<b>Tabela twoich dochodów:</b>");
 		generateTableHead(table, data);
 		generateSumOfIncomesDiv(table);
     }
