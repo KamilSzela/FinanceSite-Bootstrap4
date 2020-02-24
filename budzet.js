@@ -324,15 +324,18 @@ function showContent(id){
 		
 		$('#setupContainer').removeClass('d-none');
 		$('#setupContainer').addClass('d-flex');
-		let windowHeight = $(window).height() - 70;
-		let stringHeight = windowHeight.toString() +"px";
-		$('#setupContainer').css({'height': stringHeight});
+		adjustSetupContainerheight();
 		$('#setup').addClass('active');
 		
 		$('#summaryContainer').removeClass('d-flex');
 		$('#summaryContainer').addClass('d-none');
 		$('#summary').removeClass('active');
 	}
+}
+function adjustSetupContainerheight(){
+	let windowHeight = $(window).height() - 70;
+	let stringHeight = windowHeight.toString() +"px";
+	$('#setupContainer').css({'height': stringHeight});
 }
 // visibility functions
 /*function resizeScreen(){
@@ -1011,11 +1014,9 @@ function evaluateFinanceManagement(){
 // setup functions
 $('#listLoginChange').on('click', function(){
 	
-	//$('.setupContainer').css({'height': '600px'});
-	//$('.setupFunction').css({'height': '542px'});
-	//$('#expenceMenuSetup').css({'height': '500px'});
 	$('#loginSetup').removeClass('d-none');
 	$('#loginSetup').addClass('d-flex');
+	adjustSetupContainerheight()
 	
 	$('#expenceMenuSetup').removeClass('d-flex');
 	$('#expenceMenuSetup').addClass('d-none');
@@ -1042,8 +1043,8 @@ $('#listExpenceChange').on('click', function(){
 	$('#lastInputsMenuSetup').addClass('d-none');
 	
 	$("#functionMessage-loginSetup").html("");
-	//loadPaymentWaysToDiv();
-	//loadCathegoriesToDiv();
+	loadPaymentWaysToDiv();
+	loadCathegoriesToDiv();
 	//adjustSetupHeight();
 });
 $('#listIncomeChange').on('click', function(){
@@ -1215,6 +1216,7 @@ function changeEmailOfLoggedUser(){
 		}
 	}
 }
+
 function changeEmailInLocalStorage(valueOfName,nameOfValue){
 	var dashCounter = 0;
 	var string = "";
@@ -1245,5 +1247,58 @@ function changeEmailInLocalStorage(valueOfName,nameOfValue){
 			$('#emailChange').val("");
 		}
 	}
+}
+
+function loadPaymentWaysToDiv(){
+	
+		var methods = $('#expencePaymentWay').html();
+		$('#expenceMethodDelete').html("");
+		var string = "";
+		var quotMarks = false;
+		var methodsString = "<form id=\"deletePaymentWay\" class=\"form-group\">";
+		for(var i=0; i<methods.length; i++){
+			
+			if(methods.charAt(i)==" " && quotMarks == false) 
+			{
+				var beginnigString = methods.substr(i+1 ,5);
+				if(beginnigString == "value"){
+					quotMarks = true;
+					i=i+8;
+				
+				}
+			}
+			if(quotMarks == true){
+				
+				if(methods.charAt(i) == "\"") {
+					methodsString += "<div class=\"form-control bg-light\"><input type=\"radio\" name=\"expenceDelete\" value=\""+string+"\"> "+string+"</div>";
+					quotMarks = false;
+					string = "";
+					continue;
+				}
+				string = string + methods.substr(i,1);
+			}
+		}
+		methodsString += "</form>";
+		$('#expenceMethodDelete').html(methodsString);
+		$('#setupContainer').css({'height': 'auto'});	
+}
+$('#deleteMethodButton').on('click', function(){
+	deleteMethodOfPayment();
+});
+function deleteMethodOfPayment(){
+	var wayOfPayment = $("input[type=radio][name=expenceDelete]:checked").val();
+	$('input[type=radio][name=expenceDelete]:checked').parent().remove();
+	wayOfPayment = deleteSpaces(wayOfPayment);
+	var stringIdName = "#" + wayOfPayment;
+	$(stringIdName).remove();
+	alert("Usunięto wybraną metodę płatności");
+}
+function deleteSpaces(wayOfPayment){
+	var string = "";
+	for(var i=0; i<wayOfPayment.length; i++){
+		if(wayOfPayment.charAt(i)==" ") continue;
+		string = string + wayOfPayment.substr(i,1);
+	}
+	return string;
 }
 //setup functions/
