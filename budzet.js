@@ -1044,7 +1044,7 @@ $('#listExpenceChange').on('click', function(){
 	
 	$("#functionMessage-loginSetup").html("");
 	loadPaymentWaysToDiv();
-	loadCathegoriesToDiv();
+	//loadCathegoriesToDiv();
 	//adjustSetupHeight();
 });
 $('#listIncomeChange').on('click', function(){
@@ -1300,5 +1300,16 @@ function deleteSpaces(wayOfPayment){
 		string = string + wayOfPayment.substr(i,1);
 	}
 	return string;
+}
+$('#addPaymentWayButton').on('click', function(){
+	addNewMethodOfPayment();
+});
+function addNewMethodOfPayment(){
+	var addedMethod = $('#addPayment').val();
+	if(addedMethod == "") {alert("Nie wprowadzono nowej metody!"); return;};
+	
+	 $('#expencePaymentWay').append("<div class=\"custom-control custom-radio\"><input type='radio' class='custom-control-input' id=\""+deleteSpaces(addedMethod)+"\" value=\""+ addedMethod +"\" name='payment'><label class='custom-control-label' for=\""+deleteSpaces(addedMethod)+"\">"+addedMethod+"</label></div>");	
+	alert("Dodano nową metodę płatności");
+	$('#addPayment').val("");
 }
 //setup functions/
