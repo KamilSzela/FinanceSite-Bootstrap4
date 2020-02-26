@@ -273,16 +273,16 @@
 										<label class="custom-control-label" for="donation">Darowizna</label>
 									</div>
 									<div class="custom-control custom-radio" id="Spłatadługów">
-										<input type="radio" class="custom-control-input" name="expenceCat" id="debtsPayment" value="Spłatadługów">
+										<input type="radio" class="custom-control-input" name="expenceCat" id="debtsPayment" value="Spłata długów">
 										<label class="custom-control-label" for="debtsPayment">Spłata długów</label>
 									</div>
 									<div class="custom-control custom-radio" id="Nazłotąjesień,czyliemeryturę">
-										<input type="radio" class="custom-control-input" name="expenceCat" id="retirement" value="Nazłotąjesień,czyliemeryturę">
+										<input type="radio" class="custom-control-input" name="expenceCat" id="retirement" value="Na złotą jesień, czyli emeryturę">
 										<label class="custom-control-label" for="retirement">Na złotą jesień, czyli emeryturę</label>
 									</div>
 									<div class="custom-control custom-radio" id="Innewydatki">
-										<input type="radio" class="custom-control-input" name="expenceCat" id="otherExpences" value="Innewydatki">
-										<label class="custom-control-label" for="otherExpences">Innewydatki</label>
+										<input type="radio" class="custom-control-input" name="expenceCat" id="otherExpences" value="Inne wydatki">
+										<label class="custom-control-label" for="otherExpences">Inne wydatki</label>
 									</div>
 								</form>
 							</div>
@@ -421,8 +421,8 @@
 												<button class="btn btn-success btn-block" id="deleteMethodButton"><span class="fa fa-save"></span> Usuń metodę</button>
 											</div>
 											
-											<div class="col-sm-12">
-												<label for=""><h5>Dodawanie nowej kategorii platności: </h5></label>
+											<div class="col-sm-12 my-2">
+												<h5>Dodawanie nowej kategorii platności: </h5>
 											</div>
 											<div class="col-sm-12 input-group">
 													<input type="text" class="form-control mr-3" id="addExpenceCathegory">
@@ -432,14 +432,29 @@
 											<div class="col-sm-12">
 												<h5 class="my-2">Usuwanie kategorii płatności: </h5>
 											</div>
-											<div class="col-sm-12" id="expenceCathegoryDelete">-</div>
+											<div class="col-sm-12 mb-3" id="expenceCathegoryDelete">-</div>
 											<div class="col-sm-12 input-group">
-												<button class="btn btn-success" id="deleteExpenceCathegoryButton"><span class="fa fa-save"></span> Usuń kategorię</button>
+												<button class="btn btn-success btn-block" id="deleteExpenceCathegoryButton"><span class="fa fa-save"></span> Usuń kategorię</button>
 											</div>
 										</div>
 									</div>
 									<div class="col-sm-12 d-none" id="incomeMenuSetup">
-										Zmiana menu dochodów
+										<div class="row justify-content-center">
+											<div class="col-sm-12">
+												<h5>Dodawanie nowej kategorii dochodu: </h5>
+											</div>
+											<div class="col-sm-12 input-group">
+													<input type="text" class="form-control mr-3" id="addIncomeCathegoryTextInput">
+													<button class="btn btn-success" id="addIncomeCathegoryButton"><span class="fa fa-save"></span> Dodaj nowa metodę</button>
+											</div>
+											<div class="col-sm-12">
+												<h5 class="my-2">Usuwanie kategorii dochodu: </h5>
+											</div>
+											<div class="col-sm-12 mb-3" id="incomeCathegoryDelete">-</div>
+											<div class="col-sm-12 input-group">
+												<button class="btn btn-success btn-block" id="deleteIncomeCathegoryButton"><span class="fa fa-save"></span> Usuń kategorię</button>
+											</div>
+										</div>
 									</div>
 									<div class="col-sm-12 d-none" id="lastInputsMenuSetup">
 										Usuwanie wybranych wpisów
