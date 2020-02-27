@@ -36,5 +36,9 @@ body
 			border-color: #9da1a6;
 			width:20%;
 		}
-
-
+.height-auto{
+	height:auto;
+}
+.font-2rem{
+	font-size: 2rem;
+}

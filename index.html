@@ -3,7 +3,7 @@
 <head>
 
 	<meta charset="utf-8">
-	<title>Bezpożyczek</title>
+	<title>Bezpożyczek.pl</title>
 	<meta name="description" content="Aplikacja internetowa służąca do planowania domowego budżetu">
 	<meta name="keywords" content="budżet, wydatki, przychody, pieniądze, bilans, zarzadzanie, aplikacja, internetowa">
 	<meta name="author" content="Kamil Szela">
@@ -21,7 +21,7 @@
 	<div class="container mt-3 rounded h-100">
 	
 		<header id="appHeader" class="row bg-secondary align-items-center text-center justify-content-center px-3 py-2">
-			<h3><b>Bezpożyczek - aplikacja internetowa wspomagająca zażądzanie funduszami</b></h3>
+			<h3><b>Bezpożyczek.pl - aplikacja internetowa wspomagająca zażądzanie funduszami</b></h3>
 		</header>
 		<div class="row custom-bg py-2" id="register">
 			<div class="col-lg-8 col-md-6 col-sm-12 align-self-center" id="frontDescription">
@@ -212,7 +212,7 @@
 									</div>
 								</form>
 							</div>
-							<div class="col-sm-12 mb-2 border border-success">
+							<div class="col-sm-12 mb-2 py-2 border border-success">
 								<form id="expenceCategory">
 									<p>Kategoria wydatku:</p>
 									
@@ -273,16 +273,16 @@
 										<label class="custom-control-label" for="donation">Darowizna</label>
 									</div>
 									<div class="custom-control custom-radio" id="Spłatadługów">
-										<input type="radio" class="custom-control-input" name="expenceCat" id="debtsPayment" value="Spłatadługów">
+										<input type="radio" class="custom-control-input" name="expenceCat" id="debtsPayment" value="Spłata długów">
 										<label class="custom-control-label" for="debtsPayment">Spłata długów</label>
 									</div>
-									<div class="custom-control custom-radio" id="Nazłotąjesień,czyliemeryturę">
-										<input type="radio" class="custom-control-input" name="expenceCat" id="retirement" value="Nazłotąjesień,czyliemeryturę">
+									<div class="custom-control custom-radio" id="Nazłotąjesieńczyliemeryturę">
+										<input type="radio" class="custom-control-input" name="expenceCat" id="retirement" value="Na złotą jesień, czyli emeryturę">
 										<label class="custom-control-label" for="retirement">Na złotą jesień, czyli emeryturę</label>
 									</div>
 									<div class="custom-control custom-radio" id="Innewydatki">
-										<input type="radio" class="custom-control-input" name="expenceCat" id="otherExpences" value="Innewydatki">
-										<label class="custom-control-label" for="otherExpences">Innewydatki</label>
+										<input type="radio" class="custom-control-input" name="expenceCat" id="otherExpences" value="Inne wydatki">
+										<label class="custom-control-label" for="otherExpences">Inne wydatki</label>
 									</div>
 								</form>
 							</div>
@@ -402,14 +402,79 @@
 										</div>
 										
 									</div>
+
 									<div class="col-sm-12 d-none" id="expenceMenuSetup">
-										Zmiana menu wydatków
+										<div class="row justify-content-center">
+											<div class="col-sm-12">
+												<label for="addPayment" class="my-2"><h5>Dodawanie nowej metody płatności: </h5></label>
+											</div>
+											<div class="col-sm-12 input-group">
+													<input type="text" class="form-control mr-3" id="addPayment">
+													<button class="btn btn-success" id="addPaymentWayButton"><span class="fa fa-save"></span> Dodaj metodę</button>
+											</div>
+										
+											<div class="col-sm-12">
+												<h5 class="my-2">Usuwanie metody płatności: </h5>
+											</div>
+											<div class="col-sm-12" id="expenceMethodDelete">-</div>
+											<div class="col-sm-12 input-group">
+												<button class="btn btn-success btn-block" id="deleteMethodButton"><span class="fa fa-save"></span> Usuń metodę</button>
+											</div>
+											
+											<div class="col-sm-12 my-2">
+												<h5>Dodawanie nowej kategorii platności: </h5>
+											</div>
+											<div class="col-sm-12 input-group">
+													<input type="text" class="form-control mr-3" id="addExpenceCathegory">
+													<button class="btn btn-success" id="addExpenceCathegoryButton"><span class="fa fa-save"></span> Dodaj kategorię</button>
+											</div>
+											
+											<div class="col-sm-12">
+												<h5 class="my-2">Usuwanie kategorii płatności: </h5>
+											</div>
+											<div class="col-sm-12 mb-3" id="expenceCathegoryDelete">-</div>
+											<div class="col-sm-12 input-group">
+												<button class="btn btn-success btn-block" id="deleteExpenceCathegoryButton"><span class="fa fa-save"></span> Usuń kategorię</button>
+											</div>
+										</div>
 									</div>
 									<div class="col-sm-12 d-none" id="incomeMenuSetup">
-										Zmiana menu dochodów
+										<div class="row justify-content-center">
+											<div class="col-sm-12">
+												<h5>Dodawanie nowej kategorii dochodu: </h5>
+											</div>
+											<div class="col-sm-12 input-group">
+													<input type="text" class="form-control mr-3" id="addIncomeCathegoryTextInput">
+													<button class="btn btn-success" id="addIncomeCathegoryButton"><span class="fa fa-save"></span> Dodaj nowa metodę</button>
+											</div>
+											<div class="col-sm-12">
+												<h5 class="my-2">Usuwanie kategorii dochodu: </h5>
+											</div>
+											<div class="col-sm-12 mb-3" id="incomeCathegoryDelete">-</div>
+											<div class="col-sm-12 input-group">
+												<button class="btn btn-success btn-block" id="deleteIncomeCathegoryButton"><span class="fa fa-save"></span> Usuń kategorię</button>
+											</div>
+										</div>
 									</div>
 									<div class="col-sm-12 d-none" id="lastInputsMenuSetup">
-										Usuwanie wybranych wpisów
+										<div class="row justify-content-center">
+											<div class="col-sm-12">
+												<h5><b>Usuwanie ostatnio dodanych przychodów:</b></h5>
+											</div>
+											<div class="col-sm-12 text-center mb-3" id="lastIncomesLoaded">
+											</div>
+											<div class="col-sm-12">
+												<button class="btn btn-success btn-block" id="deleteIncomeInLocalStorageButton"><span class="fa fa-trash-o"></span> Usuń dochód</button>
+											</div>
+											<div class="col-sm-12">
+												<h5><b>Usuwanie ostatnio dodanych wydatków</b></h5>
+											</div>
+											<div class="col-sm-12 text-center mb-3" id="lastExpencesLoaded">
+											</div>
+											<div class="col-sm-12">
+												<button class="btn btn-success btn-block" id="deleteExpenceInLocalStorageButton"><span class="fa fa-trash-o"></span> Usuń wydatek</button>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>

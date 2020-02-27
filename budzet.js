@@ -324,15 +324,22 @@ function showContent(id){
 		
 		$('#setupContainer').removeClass('d-none');
 		$('#setupContainer').addClass('d-flex');
-		let windowHeight = $(window).height() - 70;
-		let stringHeight = windowHeight.toString() +"px";
-		$('#setupContainer').css({'height': stringHeight});
+		adjustSetupContainerheight();
 		$('#setup').addClass('active');
+		if($("#expenceMenuSetup").hasClass('d-flex')==true){
+			$('#setupContainer').css({'height': 'auto'});
+		}
 		
 		$('#summaryContainer').removeClass('d-flex');
 		$('#summaryContainer').addClass('d-none');
 		$('#summary').removeClass('active');
 	}
+}
+function adjustSetupContainerheight(){
+	let windowHeight = $(window).height() - 70;
+	let stringHeight = windowHeight.toString() +"px";
+	$('#setupContainer').css({'height': stringHeight});
+	
 }
 // visibility functions
 /*function resizeScreen(){
@@ -1011,11 +1018,9 @@ function evaluateFinanceManagement(){
 // setup functions
 $('#listLoginChange').on('click', function(){
 	
-	//$('.setupContainer').css({'height': '600px'});
-	//$('.setupFunction').css({'height': '542px'});
-	//$('#expenceMenuSetup').css({'height': '500px'});
 	$('#loginSetup').removeClass('d-none');
 	$('#loginSetup').addClass('d-flex');
+	adjustSetupContainerheight()
 	
 	$('#expenceMenuSetup').removeClass('d-flex');
 	$('#expenceMenuSetup').addClass('d-none');
@@ -1042,9 +1047,8 @@ $('#listExpenceChange').on('click', function(){
 	$('#lastInputsMenuSetup').addClass('d-none');
 	
 	$("#functionMessage-loginSetup").html("");
-	//loadPaymentWaysToDiv();
-	//loadCathegoriesToDiv();
-	//adjustSetupHeight();
+	loadPaymentWaysToDiv();
+	loadCathegoriesToDiv();
 });
 $('#listIncomeChange').on('click', function(){
 	$('#loginSetup').removeClass('d-flex');
@@ -1060,11 +1064,8 @@ $('#listIncomeChange').on('click', function(){
 	$('#lastInputsMenuSetup').addClass('d-none');
 	
 	$("#functionMessage-loginSetup").html("");
-	//$('.setupContainer').css({'height': '600px'});
-	//$('.setupFunction').css({'height': '542px'});
-	//$('#expenceMenuSetup').css({'height': '500px'});
-
-	//loadIncomeCathegoriesToDiv();
+	adjustSetupContainerheight();
+	loadIncomeCathegoriesToDiv();
 });
 $('#listLastInputsDelete').on('click', function(){
 	$('#loginSetup').removeClass('d-flex');
@@ -1080,11 +1081,10 @@ $('#listLastInputsDelete').on('click', function(){
 	$('#lastInputsMenuSetup').addClass('d-flex');
 	
 	$("#functionMessage-loginSetup").html("");
-	//$('.setupContainer').css({'height': '600px'});
-	//$('#lastInputsMenuSetup').css({'height': '485px'});
-	//loadIncomesFromArrayToDiv();
-	//loadExpencesFromArrayToDiv();
-	//adjustButtonPositionToDeletingLastInputs();
+	
+	adjustSetupContainerheight();
+	loadIncomesFromArrayToDiv();
+	loadExpencesFromArrayToDiv();	
 });
 $('#changeLoginButton').on('click', function(){
 	changeLoginOfLoggedUser();
@@ -1215,6 +1215,7 @@ function changeEmailOfLoggedUser(){
 		}
 	}
 }
+
 function changeEmailInLocalStorage(valueOfName,nameOfValue){
 	var dashCounter = 0;
 	var string = "";
@@ -1245,5 +1246,268 @@ function changeEmailInLocalStorage(valueOfName,nameOfValue){
 			$('#emailChange').val("");
 		}
 	}
+}
+
+function loadPaymentWaysToDiv(){
+	
+		var methods = $('#expencePaymentWay').html();
+		$('#expenceMethodDelete').html("");
+		var string = "";
+		var quotMarks = false;
+		var methodsString = "<form id=\"deletePaymentWay\" class=\"form-group\">";
+		for(var i=0; i<methods.length; i++){
+			
+			if(methods.charAt(i)==" " && quotMarks == false) 
+			{
+				var beginnigString = methods.substr(i+1 ,5);
+				if(beginnigString == "value"){
+					quotMarks = true;
+					i=i+8;
+				
+				}
+			}
+			if(quotMarks == true){
+				
+				if(methods.charAt(i) == "\"") {
+					methodsString += "<div class=\"form-control bg-light\"><input type=\"radio\" name=\"expenceDelete\" value=\""+string+"\"> "+string+"</div>";
+					quotMarks = false;
+					string = "";
+					continue;
+				}
+				string = string + methods.substr(i,1);
+			}
+		}
+		methodsString += "</form>";
+		$('#expenceMethodDelete').html(methodsString);
+		$('#setupContainer').css({'height': 'auto'});	
+}
+$('#deleteMethodButton').on('click', function(){
+	deleteMethodOfPayment();
+});
+function deleteMethodOfPayment(){
+	var wayOfPayment = $("input[type=radio][name=expenceDelete]:checked").val();
+	$('input[type=radio][name=expenceDelete]:checked').parent().remove();
+	wayOfPayment = deleteSpaces(wayOfPayment);
+	var stringIdName = "#" + wayOfPayment;
+	$(stringIdName).remove();
+	alert("Usunięto wybraną metodę płatności");
+}
+function deleteSpaces(wayOfPayment){
+	var string = "";
+	for(var i=0; i<wayOfPayment.length; i++){
+		if(wayOfPayment.charAt(i)==" "||wayOfPayment.charAt(i)==",") continue;
+		string = string + wayOfPayment.substr(i,1);
+	}
+	return string;
+}
+$('#addPaymentWayButton').on('click', function(){
+	addNewMethodOfPayment();
+});
+function addNewMethodOfPayment(){
+	var addedMethod = $('#addPayment').val();
+	if(addedMethod == "") {alert("Nie wprowadzono nowej metody!"); return;};
+	
+	 $('#expencePaymentWay').append("<div class=\"custom-control custom-radio\" id=\""+ deleteSpaces(addedMethod) +"\"><input type='radio' class='custom-control-input' id=\""+deleteSpaces(addedMethod)+"input\" value=\""+ addedMethod +"\" name='payment'><label class='custom-control-label' for=\""+deleteSpaces(addedMethod)+"input\">"+addedMethod+"</label></div>");	
+	alert("Dodano nową metodę płatności");
+	$('#addPayment').val("");
+	loadPaymentWaysToDiv();
+}
+function loadCathegoriesToDiv(){
+	var methods = $('#expenceCategory').html();
+		$('#expenceCathegoryDelete').html("");
+		var string = "";
+		var quotMarks = false;
+		var methodsString = "<fieldset id=\"deleteCathegoryWay\"></fieldset>";
+		$('#expenceCathegoryDelete').append(methodsString);
+		for(var i=0; i<methods.length; i++){
+			
+			if(methods.charAt(i)==" " && quotMarks == false) 
+			{
+				var beginnigString = methods.substr(i+1 ,5);
+				if(beginnigString == "value"){
+					quotMarks = true;
+					i=i+8;
+				}
+			}
+			if(quotMarks == true){
+				
+				if(methods.charAt(i) == "\"") {
+						methodsString += "<div class=\"form-control bg-light\"><input type=\"radio\" name=\"expenceMethodDelete\" value=\""+string+"\"> "+ string+"</div>";
+						quotMarks = false;
+						string = "";
+						
+						$('#deleteCathegoryWay').append(methodsString);
+						methodsString = "";
+						continue;						
+				}
+				string = string + methods.substr(i,1);
+			}
+		}
+}
+$('#deleteExpenceCathegoryButton').on('click', function(){
+	deleteCathegoryOfPayment();
+});
+function deleteCathegoryOfPayment(){
+	var cathegoryOfPayment = $("input[type=radio][name=expenceMethodDelete]:checked").val();
+	$('input[type=radio][name=expenceMethodDelete]:checked').parent().remove();
+	cathegoryOfPayment = deleteSpaces(cathegoryOfPayment);
+	var stringIdName = "#" + cathegoryOfPayment;
+    $(stringIdName).remove();
+	
+	alert("Usunięto wybraną kategorię płatności");
+}
+$('#addExpenceCathegoryButton').on('click', function(){
+	addNewCathegoryOfPayment();
+});
+function addNewCathegoryOfPayment(){
+	var addedCathegory = $('#addExpenceCathegory').val();
+	if(addedCathegory == "") {alert("Nie wprowadzono nowej kategorii!"); return;};
+	
+	 $('#expenceCategory').append("<div class=\"custom-control custom-radio\" id=\""+ deleteSpaces(addedCathegory)+"\"><input type='radio' class=\"custom-control-input\" id=\""+deleteSpaces(addedCathegory)+"input\" value=\""+ addedCathegory +"\" name='expenceCat'><label class='custom-control-label' for=\""+deleteSpaces(addedCathegory)+"input\">"+ addedCathegory +"</label></div>");
+	 
+	 alert("Dodano nową kategorię wydatku");
+	 loadCathegoriesToDiv();
+	 $('#addExpenceCathegory').val("");
+}
+function loadIncomeCathegoriesToDiv(){
+	var methods = $('#incomeCategory').html();
+		$('#incomeCathegoryDelete').html("");
+		var string = "";
+		var quotMarks = false;
+		var methodsString = "<form class='form-group' id=\"deleteIncomeCathegoryFieldset\">";
+		
+		for(var i=0; i<methods.length; i++){
+			
+			if(methods.charAt(i)==" " && quotMarks == false) 
+			{
+				var beginnigString = methods.substr(i+1 ,5);
+				if(beginnigString == "value"){
+					quotMarks = true;
+					i=i+8;
+				
+				}
+			}
+			if(quotMarks == true){
+				
+				if(methods.charAt(i) == "\"") {
+					methodsString += "<div class=\"form-control bg-light\"><input type=\"radio\" name=\"incomeDeleteCathegoryInput\" value=\""+string+"\"> "+string+"</div>";
+					quotMarks = false;
+					string = "";
+					continue;
+				}
+				string = string + methods.substr(i,1);
+			}
+		}
+		methodsString += "</form>";
+		$('#incomeCathegoryDelete').append(methodsString);
+}
+$('#addIncomeCathegoryButton').on('click', function(){
+	addNewCathegoryOfIncome();
+});
+$('#deleteIncomeCathegoryButton').on('click', function(){
+	deleteCathegoryOfIncome();
+});
+function addNewCathegoryOfIncome(){
+	var addedCathegory = $('#addIncomeCathegoryTextInput').val();
+	if(addedCathegory == "") {alert("Nie wprowadzono nowej kategorii!"); return;};
+	
+	 $('#incomeCategory').append("<div class=\"custom-control custom-radio\" id=\""+deleteSpaces(addedCathegory)+"\"><input type='radio' class='custom-control-input' id=\""+deleteSpaces(addedCathegory)+"input\" value=\""+ addedCathegory +"\" name='incomeCategory'><label class='custom-control-label' for=\""+deleteSpaces(addedCathegory)+"input\" >"+ addedCathegory +"</label></div>");
+	 
+	 alert("Dodano nową kategorię przychodu");
+	 loadIncomeCathegoriesToDiv();
+	 $('#addIncomeCathegoryTextInput').val("");
+}
+function deleteCathegoryOfIncome(){
+	var cathegoryOfPayment = $("input[type=radio][name=incomeDeleteCathegoryInput]:checked").val();
+	$('input[type=radio][name=incomeDeleteCathegoryInput]:checked').parent().remove();
+	cathegoryOfPayment = deleteSpaces(cathegoryOfPayment);
+	var stringIdName = "#" + cathegoryOfPayment;
+    $(stringIdName).remove();
+	
+	alert("Usunięto wybraną kategorię płatności");
+}
+function addIncomeData(i){
+	var string = "";
+
+	string = string +"<b> Rozmiar dochodu: </b>"+ incomesObj[i].amount;
+	string = string +",<b> data dochodu: </b>"+ incomesObj[i].date;
+	string = string +",<b> kategoria dochodu: </b>"+ incomesObj[i].cathegory;
+	string = string +",<b> komentarz: </b>"+ incomesObj[i].comment;
+	return string;
+}
+function addExpenceData(i)
+{
+	var string = "";
+
+	string = string +"<b> Rozmiar wydatku: </b>"+ expencesObj[i].amount;
+	string = string +",<b>  data wydatku: </b>"+ expencesObj[i].date;
+	string = string +",<b>  metoda zapłaty: wydatku: </b>"+ expencesObj[i].payment;
+	string = string +",<b>  źródło wydatku: </b>"+ expencesObj[i].source;
+	string = string +",<b> komentarz: </b>"+ expencesObj[i].comment;
+	return string;
+}
+function loadIncomesFromArrayToDiv(){
+	$('#lastIncomesLoaded').html("");
+	if(incomesObj.length == 0){
+		$('#lastIncomesLoaded').html("<p class=\"font-2rem text-danger\">Brak dodanych dochodów</p>");
+		return;
+	}
+	var endOfArray = incomesObj.length-1;
+	var string = "";
+	var methodsString = "<fieldset id=\"deleteLastIncomesInLocalStorageFieldset\">";
+	for (var i=endOfArray; i>endOfArray-3; i--){
+		string=addIncomeData(i);
+		methodsString += "<div class=\"form-control bg-light height-auto\"><input type=\"radio\" class=\"control-input\" name=\"incomeDeleteLocalStorageInput\" value=\"Income"+incomesObj[i].id + "\">"+ string +"</div>";
+		if(i==0) break;
+	}
+	methodsString += "</fieldset>";
+	$('#lastIncomesLoaded').append(methodsString);
+}
+function loadExpencesFromArrayToDiv(){
+	$('#lastExpencesLoaded').html("");
+	if(expencesObj.length == 0){
+		$('#lastExpencesLoaded').html("<p class='font-2rem text-danger'>Brak dodanych wydatków</p>");
+		$('#lastInputsMenuSetup h4').last().css('margin-top','30px');
+		return;
+	}
+	var endOfArray = expencesObj.length-1;
+	var string = "";
+	var methodsString = "<fieldset id=\"deleteLastExpencesInLocalStorageFieldset\">";
+	for (var i=endOfArray; i>endOfArray-3; i--){
+		string=addExpenceData(i);
+		methodsString += "<div class=\"form-control bg-light height-auto\"><input type=\"radio\" class=\"control-input\" name=\"expenceDeleteLocalStorageInput\" value=\"Expence"+expencesObj[i].id + "\">"+ string +"</div>";
+		if(i==0) break;
+	}
+	methodsString += "</fieldset>";
+	$('#lastExpencesLoaded').append(methodsString);
+	let windowHeight = $(window).height();
+	if(windowHeight>450){
+		$('#setupContainer').css({'height': 'auto'});
+		return;
+	}
+}
+$('#deleteIncomeInLocalStorageButton').on('click', function(){
+	deleteIncomeInLocalStorage();
+});
+$('#deleteExpenceInLocalStorageButton').on('click', function(){
+	deleteExpenceInLocalStorage();
+});
+function deleteIncomeInLocalStorage(){
+	var incomeToDelete = $("input[type=radio][name=incomeDeleteLocalStorageInput]:checked").val();
+	localStorage.removeItem(incomeToDelete);
+	$("input[type=radio][name=incomeDeleteLocalStorageInput]:checked").parent().remove();
+	incomesObj.splice(0,incomesObj.length);
+	loadIncomesOfLoggedUser();
+	alert("Usunięto wskazany dochód");
+	loadIncomesFromArrayToDiv();
+}
+function deleteExpenceInLocalStorage(){
+	var expenceToDelete = $("input[type=radio][name=expenceDeleteLocalStorageInput]:checked").val();
+	localStorage.removeItem(expenceToDelete);
+	$("input[type=radio][name=expenceDeleteLocalStorageInput]:checked").parent().remove();
+	expencesObj.splice(0,expencesObj.length);
+	loadExpencesOfLoggedUser();
+	alert("Usunięto wskazany wydatek");
+	loadExpencesFromArrayToDiv();
 }
 //setup functions/
