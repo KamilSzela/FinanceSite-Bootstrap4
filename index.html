@@ -75,7 +75,7 @@
 		<div class="row py-2 px-2 d-none custom-bg" id="content">
 			<div class="col-sm-12">
 				
-					<nav class="navbar navbar-expand-lg navbar-dark bg-dark w-100" role="navigation">
+					<nav class="navbar navbar-expand-lg navbar-dark bg-dark w-100">
 						<a class="navbar-brand" id="home" href="#"><span class="fa fa-home"> Główna</span></a>
 						<button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#siteNavbar">
 							<span class="navbar-toggler-icon"></span>
@@ -122,7 +122,7 @@
 								<h4>Dodawanie nowego dochodu</h4>
 							</div>
 							<div class="col-sm-12 mb-2">
-								<label for="#incomeAmount">Kwota dochodu: </label>
+								<p>Kwota dochodu: </p>
 								<div class="input-group">
 									<input type="text" class="form-control" placeholder="Podaj kwotę dochodu" id="incomeAmount">
 									<div class="input-group-append">
@@ -132,8 +132,8 @@
 							</div>
 							<div class="col-sm-12 mb-2">
 								<div class="form-group">
-									<label for="#dateIncome">Data przychodu:</label>
-									<input type="date" id="dateIncome" class="form-control" placeholder="Wybierz datę dochodu">
+									<p>Data dochodu:</p>
+									<input type="date" id="dateIncome" class="form-control">
 								</div>
 							</div>
 							<div class="col-sm-12 mb-2 border border-success">
@@ -160,8 +160,8 @@
 							</div>
 							<div class="col-sm-12 mb-2">
 								<div class="form-group">
-									<label for="#commentIncome">Komentarz(opcjonalnie):</label>
-									<textarea type="text" id="commentIncome" class="form-control" placeholder="" columns="3"></textarea>
+									<p>Komentarz(opcjonalnie):</p>
+									<textarea id="commentIncome" class="form-control" placeholder=""></textarea>
 								</div>
 							</div>
 							<div id="addIncomeFunctionMessage" class="text-danger col-sm-12 text-center mb-2"></div>
@@ -181,7 +181,7 @@
 							</div>
 							
 							<div class="col-sm-12 mb-2">
-								<label for="#expenceAmount">Kwota wydatku: </label>
+								<p>Kwota wydatku: </p>
 								<div class="input-group">
 									<input type="text" class="form-control" placeholder="Podaj kwotę wydatku" id="expenceAmount">
 									<div class="input-group-append">
@@ -191,8 +191,8 @@
 							</div>
 							<div class="col-sm-12 mb-2">
 								<div class="form-group">
-									<label for="#dateExpence">Data wydatku:</label>
-									<input type="date" id="dateExpence" class="form-control" placeholder="Wybierz datę wydatku">
+									<p>Data wydatku:</p>
+									<input type="date" id="dateExpence" class="form-control">
 								</div>
 							</div>
 							<div class="col-sm-12 mb-2 border border-success">
@@ -288,8 +288,8 @@
 							</div>
 							<div class="col-sm-12 mb-2">
 								<div class="form-group">
-									<label for="#commentExpence">Komentarz(opcjonalnie):</label>
-									<textarea type="text" id="commentExpence" class="form-control" placeholder="" columns="3"></textarea>
+									<p>Komentarz(opcjonalnie):</p>
+									<textarea id="commentExpence" class="form-control" placeholder=""></textarea>
 								</div>
 							</div>
 							<div id="addExpenceFunctionMessage" class="text-danger col-sm-12 text-center mb-2"></div>
@@ -406,7 +406,7 @@
 									<div class="col-sm-12 d-none" id="expenceMenuSetup">
 										<div class="row justify-content-center">
 											<div class="col-sm-12">
-												<label for="addPayment" class="my-2"><h5>Dodawanie nowej metody płatności: </h5></label>
+												<label for="addPayment" class="my-2">Dodawanie nowej metody płatności: </label>
 											</div>
 											<div class="col-sm-12 input-group">
 													<input type="text" class="form-control mr-3" id="addPayment">
@@ -492,7 +492,7 @@
 	<!--Bootstrap-->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-	<script type="text/javascript" src="budzet.js"></script> 
+	<script src="budzet.js"></script> 
 	
 </body>
 </html>
