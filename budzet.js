@@ -634,9 +634,10 @@ $('#generateSummaryButton').on('click', function(){
 });
 function createTableOfExpences(timeSpan){
 		$('#expenceTable').html("");
+		$('#expenceTableHeader').html("");
 		let table = document.getElementById("expenceTable");
 		if(expencesObj.length == 0) {
-		$('#expenceTable').html("<tbody><tr>Brak wydatków w rozpatrywanym okresie</tr></tbody>");
+		$('#expenceTable').html("<tbody><tr><td class=\"text-center\">Brak wydatków w rozpatrywanym okresie</td></tr></tbody>");
 		return;
 	}
 		let data = Object.keys(expencesObj[0]);
@@ -905,6 +906,7 @@ function checkIfCathegoryIsAlreadyIncluded(cathegory,inputsSorted){
 	}
 function createTableOfIncomes(timeSpan){
 	$('#incomeTable').html("");
+	$('#incomeTableHeader').html("");
 	let table = document.getElementById("incomeTable");
 	if(incomesObj.length == 0) {
 		$('#incomeTable').html("<tbody><tr><td class=\"text-center\">Brak dochodów w rozpatrywanym okresie</td></tr></tbody>");
@@ -924,6 +926,7 @@ function generateIncomesTable(table, data, timeSpan) {
 	
 		if(incomesSorted.length == 0) {
 			$('#incomeTable').html("<tbody><tr><td class=\"text-center\">Brak dochodów w rozpatrywanym okresie</td></tr></tbody>");
+			evaluateFinanceManagement();
 			return;
 		}
 		var cathegory = incomesSorted[0].cathegory;
@@ -1013,6 +1016,16 @@ function evaluateFinanceManagement(){
 	}
 	$('#showEvaluation').html(sumDivContent);
 	$('#showEvaluation').css({'background': background});
+	adjustSummaryContainerheight();
+	
+}
+function adjustSummaryContainerheight(){
+	let summaryHeight = $('#divToHeightEvaluation').height();
+	if(summaryHeight>500){
+		$('#summaryContainer').css({
+			'height': 'auto'
+		});
+	}
 }
 //summary functions
 // setup functions
