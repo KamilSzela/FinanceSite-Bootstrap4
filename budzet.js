@@ -339,6 +339,7 @@ function adjustSetupContainerheight(){
 	let windowHeight = $(window).height() - 70;
 	let stringHeight = windowHeight.toString() +"px";
 	$('#setupContainer').css({'height': stringHeight});
+	
 }
 // visibility functions
 /*function resizeScreen(){
@@ -1080,10 +1081,10 @@ $('#listLastInputsDelete').on('click', function(){
 	$('#lastInputsMenuSetup').addClass('d-flex');
 	
 	$("#functionMessage-loginSetup").html("");
-	adjustSetupContainerheight();
-	//loadIncomesFromArrayToDiv();
-	//loadExpencesFromArrayToDiv();
 	
+	adjustSetupContainerheight();
+	loadIncomesFromArrayToDiv();
+	loadExpencesFromArrayToDiv();	
 });
 $('#changeLoginButton').on('click', function(){
 	changeLoginOfLoggedUser();
@@ -1294,7 +1295,7 @@ function deleteMethodOfPayment(){
 function deleteSpaces(wayOfPayment){
 	var string = "";
 	for(var i=0; i<wayOfPayment.length; i++){
-		if(wayOfPayment.charAt(i)==" ") continue;
+		if(wayOfPayment.charAt(i)==" "||wayOfPayment.charAt(i)==",") continue;
 		string = string + wayOfPayment.substr(i,1);
 	}
 	return string;
@@ -1424,5 +1425,89 @@ function deleteCathegoryOfIncome(){
     $(stringIdName).remove();
 	
 	alert("Usunięto wybraną kategorię płatności");
+}
+function addIncomeData(i){
+	var string = "";
+
+	string = string +"<b> Rozmiar dochodu: </b>"+ incomesObj[i].amount;
+	string = string +",<b> data dochodu: </b>"+ incomesObj[i].date;
+	string = string +",<b> kategoria dochodu: </b>"+ incomesObj[i].cathegory;
+	string = string +",<b> komentarz: </b>"+ incomesObj[i].comment;
+	return string;
+}
+function addExpenceData(i)
+{
+	var string = "";
+
+	string = string +"<b> Rozmiar wydatku: </b>"+ expencesObj[i].amount;
+	string = string +",<b>  data wydatku: </b>"+ expencesObj[i].date;
+	string = string +",<b>  metoda zapłaty: wydatku: </b>"+ expencesObj[i].payment;
+	string = string +",<b>  źródło wydatku: </b>"+ expencesObj[i].source;
+	string = string +",<b> komentarz: </b>"+ expencesObj[i].comment;
+	return string;
+}
+function loadIncomesFromArrayToDiv(){
+	$('#lastIncomesLoaded').html("");
+	if(incomesObj.length == 0){
+		$('#lastIncomesLoaded').html("<p class=\"font-2rem text-danger\">Brak dodanych dochodów</p>");
+		return;
+	}
+	var endOfArray = incomesObj.length-1;
+	var string = "";
+	var methodsString = "<fieldset id=\"deleteLastIncomesInLocalStorageFieldset\">";
+	for (var i=endOfArray; i>endOfArray-3; i--){
+		string=addIncomeData(i);
+		methodsString += "<div class=\"form-control bg-light height-auto\"><input type=\"radio\" class=\"control-input\" name=\"incomeDeleteLocalStorageInput\" value=\"Income"+incomesObj[i].id + "\">"+ string +"</div>";
+		if(i==0) break;
+	}
+	methodsString += "</fieldset>";
+	$('#lastIncomesLoaded').append(methodsString);
+}
+function loadExpencesFromArrayToDiv(){
+	$('#lastExpencesLoaded').html("");
+	if(expencesObj.length == 0){
+		$('#lastExpencesLoaded').html("<p class='font-2rem text-danger'>Brak dodanych wydatków</p>");
+		$('#lastInputsMenuSetup h4').last().css('margin-top','30px');
+		return;
+	}
+	var endOfArray = expencesObj.length-1;
+	var string = "";
+	var methodsString = "<fieldset id=\"deleteLastExpencesInLocalStorageFieldset\">";
+	for (var i=endOfArray; i>endOfArray-3; i--){
+		string=addExpenceData(i);
+		methodsString += "<div class=\"form-control bg-light height-auto\"><input type=\"radio\" class=\"control-input\" name=\"expenceDeleteLocalStorageInput\" value=\"Expence"+expencesObj[i].id + "\">"+ string +"</div>";
+		if(i==0) break;
+	}
+	methodsString += "</fieldset>";
+	$('#lastExpencesLoaded').append(methodsString);
+	let windowHeight = $(window).height();
+	if(windowHeight>450){
+		$('#setupContainer').css({'height': 'auto'});
+		return;
+	}
+}
+$('#deleteIncomeInLocalStorageButton').on('click', function(){
+	deleteIncomeInLocalStorage();
+});
+$('#deleteExpenceInLocalStorageButton').on('click', function(){
+	deleteExpenceInLocalStorage();
+});
+function deleteIncomeInLocalStorage(){
+	var incomeToDelete = $("input[type=radio][name=incomeDeleteLocalStorageInput]:checked").val();
+	localStorage.removeItem(incomeToDelete);
+	$("input[type=radio][name=incomeDeleteLocalStorageInput]:checked").parent().remove();
+	incomesObj.splice(0,incomesObj.length);
+	loadIncomesOfLoggedUser();
+	alert("Usunięto wskazany dochód");
+	loadIncomesFromArrayToDiv();
+}
+function deleteExpenceInLocalStorage(){
+	var expenceToDelete = $("input[type=radio][name=expenceDeleteLocalStorageInput]:checked").val();
+	localStorage.removeItem(expenceToDelete);
+	$("input[type=radio][name=expenceDeleteLocalStorageInput]:checked").parent().remove();
+	expencesObj.splice(0,expencesObj.length);
+	loadExpencesOfLoggedUser();
+	alert("Usunięto wskazany wydatek");
+	loadExpencesFromArrayToDiv();
 }
 //setup functions/
